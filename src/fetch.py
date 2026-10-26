@@ -151,3 +151,22 @@ def news(queries, days=3):
     for o in out:
         o.pop("_t")
     return out[:25]
+
+
+def quote(sym):
+    """Per-stock fallback when the market-watch table is unavailable: intraday series, then daily, then company page."""
+    try:
+        rows = sorted(_get(f"{BASE}/timeseries/int/{sym}").json().get("data", []), key=lambda r: r[0])
+        price = rows[-1][1]
+        eod = sorted(_get(f"{BASE}/timeseries/eod/{sym}").json().get("data", []), key=lambda r: r[0])
+        today = dt.datetime.now(PKT).date()
+        prev = next((r[1] for r in reversed(eod) if dt.datetime.fromtimestamp(r[0], PKT).date() < today), None)
+        return {"price": price, "change_pct": (price - prev) / prev * 100 if prev else 0}
+    except Exception:
+        pass
+    txt = BeautifulSoup(_get(f"{BASE}/company/{sym}").text, "html.parser").get_text(" ", strip=True)
+    m = re.search(r"Rs\.?\s*([\d,]+\.\d+)", txt)
+    c = re.search(r"\(\s*([+\-\u2212]?[\d.]+)\s*%\s*\)", txt)
+    if not m:
+        raise RuntimeError("price not found on company page")
+    return {"price": _num(m.group(1)), "change_pct": _num(c.group(1).replace("\u2212", "-")) if c else 0}

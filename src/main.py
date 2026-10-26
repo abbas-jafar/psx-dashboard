@@ -48,21 +48,35 @@ def main():
     R = cfg["rules"]
     holdings, watch, targets = read_csv("holdings.csv"), read_csv("watchlist.csv"), read_csv("sector_targets.csv")
     status, index, anns, news = [], None, [], []
+    prices_ok = False
     now = dt.datetime.now(fetch.PKT)
 
     if not a.offline:
         symbols = sorted({r["ticker"] for r in holdings + watch})
+        prices_ok = False
         try:
             mw = fetch.market_watch()
-            hit = 0
-            for r in holdings + watch:
-                q = mw.get(r["ticker"])
-                if q and q["price"]:
-                    r["price"], r["change_pct"], r["price_time"] = q["price"], q["change_pct"] if q["change_pct"] is not None else 0, now.strftime("%H:%M")
-                    hit += 1
-            status.append({"name": "Prices", "ok": True, "note": f"{hit}/{len(holdings + watch)} symbols updated from PSX market watch"})
-        except Exception as e:
-            status.append({"name": "Prices", "ok": False, "note": f"using last saved prices ({str(e)[:90]})"})
+            how = "PSX market watch"
+        except Exception as e1:
+            mw, how = {}, "per-stock quotes"
+            from concurrent.futures import ThreadPoolExecutor
+            def one(s):
+                try:
+                    return s, fetch.quote(s)
+                except Exception:
+                    return s, None
+            with ThreadPoolExecutor(6) as ex:
+                for s, q in ex.map(one, symbols):
+                    if q:
+                        mw[s] = q
+        hit = 0
+        for r in holdings + watch:
+            q = mw.get(r["ticker"])
+            if q and q["price"]:
+                r["price"], r["change_pct"], r["price_time"] = q["price"], q["change_pct"] if q["change_pct"] is not None else 0, now.strftime("%H:%M")
+                hit += 1
+        prices_ok = hit > 0
+        status.append({"name": "Prices", "ok": prices_ok, "note": f"{hit}/{len(holdings + watch)} symbols updated via {how}" if prices_ok else "using last saved prices (no live source worked)"})
         cache_path = os.path.join(DOCS, "range_cache.json")
         cache = load_json(cache_path, {})
         if cache.get("date") != now.date().isoformat():
@@ -109,6 +123,9 @@ def main():
     print("page written:", os.path.join(DOCS, "index.html"), "| alerts:", len(alerts))
 
     if a.no_notify or a.offline:
+        return
+    if not prices_ok:
+        print("live prices unavailable: skipping notifications so stale data does not trigger alerts")
         return
     st_path = os.path.join(DOCS, "state.json")
     st = load_json(st_path, {})
