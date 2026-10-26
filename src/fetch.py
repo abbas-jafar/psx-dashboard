@@ -26,30 +26,27 @@ def _num(s):
 
 
 def market_watch():
-    """One page with every listed stock. Returns {symbol: {price, change_pct, ldcp, high, low, volume}}."""
-    soup = BeautifulSoup(_get(BASE + "/market-watch").text, "html.parser")
+    """All listed stocks from the portal's screener table (verified to exist from GitHub's servers).
+    Returns {symbol: {price, change_pct, pe_ttm, yield_ttm}}."""
+    soup = BeautifulSoup(_get(BASE + "/screener").text, "html.parser")
     out = {}
     for table in soup.find_all("table"):
         heads = [th.get_text(" ", strip=True).upper() for th in table.find_all("th")]
-        if "SYMBOL" not in heads or "CURRENT" not in heads:
+        if "SYMBOL" not in heads or "PRICE" not in heads:
             continue
         idx = {h: i for i, h in enumerate(heads)}
+        chg = next((h for h in heads if h.startswith("CHANGE")), None)
+        pe = next((h for h in heads if h.startswith("PE RATIO")), None)
+        dy = next((h for h in heads if h.startswith("DIVIDEND YIELD")), None)
         for tr in table.find_all("tr"):
             tds = [td.get_text(" ", strip=True) for td in tr.find_all("td")]
             if len(tds) < len(heads):
                 continue
             sym = tds[idx["SYMBOL"]].split()[0].upper()
-            chg_key = next((h for h in heads if h.startswith("CHANGE") and "%" in h), None)
-            out[sym] = {
-                "price": _num(tds[idx["CURRENT"]]),
-                "change_pct": _num(tds[idx[chg_key]]) if chg_key else None,
-                "ldcp": _num(tds[idx["LDCP"]]) if "LDCP" in idx else None,
-                "high": _num(tds[idx["HIGH"]]) if "HIGH" in idx else None,
-                "low": _num(tds[idx["LOW"]]) if "LOW" in idx else None,
-                "volume": _num(tds[idx["VOLUME"]]) if "VOLUME" in idx else None,
-            }
+            out[sym] = {"price": _num(tds[idx["PRICE"]]), "change_pct": _num(tds[idx[chg]]) if chg else None,
+                        "pe_ttm": _num(tds[idx[pe]]) if pe else None, "yield_ttm": _num(tds[idx[dy]]) if dy else None}
     if not out:
-        raise RuntimeError("market-watch table not found (page layout changed or blocked)")
+        raise RuntimeError("screener table not found")
     return out
 
 
@@ -71,14 +68,22 @@ def range_52w(sym):
 
 
 def kse100():
-    rows = _get(f"{BASE}/timeseries/int/KSE100").json().get("data", [])
-    rows = sorted(rows, key=lambda r: r[0])
-    last = rows[-1][1]
-    eod = sorted(_get(f"{BASE}/timeseries/eod/KSE100").json().get("data", []), key=lambda r: r[0])
-    today = dt.datetime.now(PKT).date()
-    prev = next((r[1] for r in reversed(eod) if dt.datetime.fromtimestamp(r[0], PKT).date() < today), None)
-    return {"level": last, "prev_close": prev,
-            "change_pct": (last - prev) / prev * 100 if prev else None}
+    """KSE-100 from the portal's indices table (Index, High, Low, Current, Change, % Change)."""
+    soup = BeautifulSoup(_get(BASE + "/indices").text, "html.parser")
+    for table in soup.find_all("table"):
+        heads = [th.get_text(" ", strip=True).upper() for th in table.find_all("th")]
+        if "CURRENT" not in heads or "INDEX" not in heads:
+            continue
+        ix = {h: i for i, h in enumerate(heads)}
+        for tr in table.find_all("tr"):
+            tds = [td.get_text(" ", strip=True) for td in tr.find_all("td")]
+            if len(tds) < len(heads) or tds[ix["INDEX"]].replace(" ", "").upper() != "KSE100":
+                continue
+            lvl, chg = _num(tds[ix["CURRENT"]]), _num(tds[ix["CHANGE"]])
+            pc = next((h for h in heads if "%" in h), None)
+            return {"level": lvl, "prev_close": lvl - chg if chg is not None else None,
+                    "change_pct": _num(tds[ix[pc]]) if pc else None, "high": _num(tds[ix["HIGH"]]), "low": _num(tds[ix["LOW"]])}
+    raise RuntimeError("KSE100 row not found in indices table")
 
 
 CATS = [
@@ -97,31 +102,53 @@ def classify(text):
     return "Other"
 
 
-def company_announcements(days=3):
-    """Company (type C) and PSX (type P) notices, via the portal's announcements search form."""
-    end = dt.datetime.now(PKT).date()
-    start = end - dt.timedelta(days=days)
-    items = []
-    for typ, label in (("C", "Company"), ("P", "PSX notice")):
-        r = requests.post(BASE + "/announcements", headers=HDR, timeout=25, data={
-            "type": typ, "symbol": "", "query": "", "count": 100, "offset": 0,
-            "date_from": start.isoformat(), "date_to": end.isoformat(), "page": "annc"})
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
-        for tr in soup.find_all("tr"):
-            tds = [td.get_text(" ", strip=True) for td in tr.find_all("td")]
-            if len(tds) < 3:
+def _parse_date(t):
+    for fmt in ("%b %d, %Y", "%B %d, %Y", "%d-%m-%Y", "%d %b %Y", "%d-%b-%Y", "%Y-%m-%d"):
+        try:
+            return dt.datetime.strptime(t.strip(), fmt).date()
+        except ValueError:
+            pass
+    return None
+
+
+def company_announcements(symbols, days=14):
+    """Announcement tables printed on each company's page (Date / Title / Document)."""
+    from concurrent.futures import ThreadPoolExecutor
+    cutoff = dt.datetime.now(PKT).date() - dt.timedelta(days=days)
+
+    def one(sym):
+        items = []
+        try:
+            soup = BeautifulSoup(_get(f"{BASE}/company/{sym}").text, "html.parser")
+        except Exception:
+            return None
+        for table in soup.find_all("table"):
+            heads = [th.get_text(" ", strip=True).upper() for th in table.find_all("th")]
+            if heads[:3] != ["DATE", "TITLE", "DOCUMENT"]:
                 continue
-            link = tr.find("a", href=True)
-            sym = next((t for t in tds if re.fullmatch(r"[A-Z0-9]{2,8}", t)), "")
-            title = max(tds, key=len)
-            date = tds[0]
-            items.append({"source": label, "date": date, "ticker": sym, "title": title,
-                          "category": "Risk notice" if typ == "P" and classify(title) == "Other" else classify(title),
-                          "url": (BASE + link["href"]) if link and link["href"].startswith("/") else (link["href"] if link else "")})
-    if not items:
-        raise RuntimeError("no announcement rows parsed")
-    return items
+            for tr in table.find_all("tr")[1:12]:
+                tds = tr.find_all("td")
+                if len(tds) < 2:
+                    continue
+                date_txt, title = tds[0].get_text(" ", strip=True), tds[1].get_text(" ", strip=True)
+                d = _parse_date(date_txt)
+                if d and d < cutoff:
+                    continue
+                link = tr.find("a", href=True)
+                href = link["href"] if link else ""
+                items.append({"source": "Company", "date": date_txt, "ticker": sym, "title": title, "category": classify(title),
+                              "url": (BASE + href) if href.startswith("/") else href})
+        return items
+
+    out, ok = [], 0
+    with ThreadPoolExecutor(6) as ex:
+        for res in ex.map(one, symbols):
+            if res is not None:
+                ok += 1
+                out += res
+    if not ok:
+        raise RuntimeError("no company page could be read")
+    return out
 
 
 def news(queries, days=3):

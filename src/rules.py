@@ -24,8 +24,8 @@ def enrich(rows, held_only_total=True):
             vs_low_pct=(price - lo) / lo * 100 if price and lo else None,
             vs_avg_pct=(price - avg) / avg * 100 if price and avg else None,
             range_pos=(price - lo) / (hi - lo) * 100 if price and lo and hi and hi > lo else None,
-            yield_pct=dps / price * 100 if price and dps is not None else None,
-            pe=price / eps if price and eps and eps > 0 else None,
+            yield_pct=dps / price * 100 if price and dps is not None else f(r.get("yield_ttm")),
+            pe=price / eps if price and eps and eps > 0 else f(r.get("pe_ttm")),
             payout_pct=dps / eps * 100 if eps and eps > 0 and dps is not None else None,
         )
         d["pl"] = d["value"] - d["cost"]

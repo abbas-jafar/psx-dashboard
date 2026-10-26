@@ -60,7 +60,7 @@ a{color:var(--acc)}.li{padding:8px 0;border-bottom:1px solid var(--line)}.li:las
 <div class="card"><b>Gain or loss since you bought</b><div id="c-pl"></div></div>
 <div class="card"><b>Dividend yield against P/E</b><p class="note">Top-left is the cheap, high-yield corner. Hollow dots are watchlist.</p><div id="c-yp"></div></div></div>
 <h2>What happened</h2><p class="note">Your stocks first, then the wider market.</p>
-<div class="grid2"><div class="card"><b>Your stocks and watchlist</b><div id="a-mine"></div></div><div class="card"><b>Market, regulator and PSX notices</b><div id="a-mkt"></div></div></div>
+<div class="grid2"><div class="card"><b>Your stocks and watchlist</b><div id="a-mine"></div></div><div class="card"><b>Key findings from today's headlines</b><p class="note">Picked automatically from the headlines below. Read the source for detail.</p><div id="a-mkt"></div></div></div>
 <div class="card" style="margin-top:12px"><b>Headlines</b><div id="news"></div></div>
 <h2>Holdings</h2><div class="card scroll" id="hold"></div>
 <h2>Watchlist</h2><p class="note">Blank yield or P/E means the dividend or EPS has not been entered in config/watchlist.csv.</p><div class="card scroll" id="watch"></div>
@@ -107,7 +107,7 @@ const cat=a=>`<span class="tag">${esc(a.category)}</span>`,item=a=>`<div class="
 const key=['Risk notice','Results','Dividend / book closure','Board meeting','Material information'];
 const mine=D.announcements.filter(a=>a.scope!=='market'),mk=D.announcements.filter(a=>a.scope==='market'&&key.includes(a.category)||a.source==='PSX notice'&&a.scope==='market');
 $('a-mine').innerHTML=mine.length?mine.map(item).join(''):'<p class="empty">'+(D.status.find(s=>s.name==='Announcements'&&s.ok)?'Nothing new for your stocks in the last 3 days.':'Announcements feed not available this run.')+'</p>';
-$('a-mkt').innerHTML=mk.length?mk.slice(0,25).map(item).join(''):'<p class="empty">No key market-wide notices retrieved.</p>';
+$('a-mkt').innerHTML=(D.key_points&&D.key_points.length)?D.key_points.map(k=>`<div class="li">${k.url?`<a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(k.text)}</a>`:esc(k.text)}</div>`).join(''):'<p class="empty">No headlines retrieved.</p>';
 $('news').innerHTML=D.news.length?D.news.map(n=>`<div class="li">${esc(n.date)} · <a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a></div>`).join(''):'<p class="empty">No headlines retrieved.</p>';
 // tables
 const th=(a)=>a.map((x,i)=>`<th class="${i?'n':''}">${x}</th>`).join('');

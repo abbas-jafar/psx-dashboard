@@ -1,6 +1,6 @@
 import argparse, csv, datetime as dt, json, os, sys
 sys.path.insert(0, os.path.dirname(__file__))
-import fetch, rules, notify, render
+import fetch, rules, notify, render, insights
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CFG, DOCS = os.path.join(ROOT, "config"), os.path.join(ROOT, "docs")
@@ -74,6 +74,7 @@ def main():
             q = mw.get(r["ticker"])
             if q and q["price"]:
                 r["price"], r["change_pct"], r["price_time"] = q["price"], q["change_pct"] if q["change_pct"] is not None else 0, now.strftime("%H:%M")
+                r["pe_ttm"], r["yield_ttm"] = q.get("pe_ttm"), q.get("yield_ttm")
                 hit += 1
         prices_ok = hit > 0
         status.append({"name": "Prices", "ok": prices_ok, "note": f"{hit}/{len(holdings + watch)} symbols updated via {how}" if prices_ok else "using last saved prices (no live source worked)"})
@@ -99,8 +100,8 @@ def main():
         except Exception as e:
             status.append({"name": "KSE-100", "ok": False, "note": str(e)[:100]})
         try:
-            anns = fetch.company_announcements()
-            status.append({"name": "Announcements", "ok": True, "note": f"{len(anns)} items"})
+            anns = fetch.company_announcements(symbols)
+            status.append({"name": "Announcements", "ok": True, "note": f"{len(anns)} items from company pages (market-wide notices not available)"})
         except Exception as e:
             status.append({"name": "Announcements", "ok": False, "note": str(e)[:100]})
         news = fetch.news(cfg.get("news_queries", []))
@@ -118,7 +119,7 @@ def main():
     alerts = rules.run_rules(H, W, mix, index, anns, R)
     data = {"generated": now.strftime("%a %d %b %Y, %H:%M PKT"), "title": cfg.get("dashboard_title", "PSX dashboard"),
             "show_rs": cfg.get("show_rs_amounts", False), "totals": rules.totals(H), "holdings": H, "watchlist": W, "sector_mix": mix,
-            "alerts": alerts, "index": index, "announcements": anns, "news": news, "status": status}
+            "alerts": alerts, "index": index, "announcements": anns, "news": news, "key_points": insights.key_points(news, index), "status": status}
     render.write(DOCS, data)
     print("page written:", os.path.join(DOCS, "index.html"), "| alerts:", len(alerts))
 
