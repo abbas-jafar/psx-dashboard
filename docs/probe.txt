@@ -58,6 +58,18 @@ GET /screener -> 200 text/html; charset=utf-8 len=702036
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: ['SYMBOL', 'SECTOR', 'LISTED IN', 'MARKET CAP.', 'PRICE', 'CHANGE (%)', '1-YEAR CH. (%) *', 'PE RATIO (TTM)', 'DIVIDEND YIELD (%)', 'FREE FLOAT', '30D VOLUME AVG.']
 
+GET /historical -> 200 text/html; charset=utf-8 len=49213
+  start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
+  th: []
+
+GET /graphical-view -> 200 text/html; charset=utf-8 len=48072
+  start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
+  th: []
+
+POST /historical -> 404 text/html; charset=utf-8 len=47046
+  start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
+  th: []
+
 POST /announcements/companies -> 404 text/html; charset=utf-8 len=47059
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
