@@ -1,34 +1,35 @@
-# My PSX dashboard
+# PSX Portfolio Dashboard
 
-A personal, Shariah/dividend-focused PSX dashboard. It fetches prices and announcements, applies your rules,
-and publishes one web page. No Claude needed once it is running.
+Personal, Shariah/dividend-focused PSX dashboard. Fetches prices, announcements, news and price history, applies your rules, and publishes one web page (GitHub Pages). Refreshes itself every 30 minutes during market hours and at 3:45 PM Pakistan time.
 
-## Files you edit
-- `config/holdings.csv` - your stocks: ticker, sector, tier, plan, qty, avg_cost, plus eps and dps (latest full-year). Keep qty 0 for planned buys.
-- `config/watchlist.csv` - stocks you are studying (same columns, no qty). Add rows any time.
-- `config/sector_targets.csv`, `config/settings.json` - sector targets, rule thresholds, news searches.
+## Secrets and variables (repository Settings > Secrets and variables > Actions)
+| Name | Type | What |
+|---|---|---|
+| `HOLDINGS_CSV` | secret | Your holdings file contents (only needed for the first run) |
+| `HOLDINGS_KEY` | secret | A long passphrase you invent (20+ characters). Encrypts your holdings and the update form |
+| `NTFY_TOPIC` | secret | Your private ntfy topic name (phone alerts) |
+| `EMAIL_USER` | secret | Your Gmail address |
+| `EMAIL_APP_PASSWORD` | secret | Google App Password, no spaces |
+| `DASH_URL` | variable | Your page address, so tapping a notification opens it |
 
-## 1. Check that the data feeds work (do this first)
+## Daily use
+- Open your page address. It refreshes by itself.
+- **Refresh now:** Actions tab > "Refresh PSX dashboard" > Run workflow. Tick "Also send a test notification" to test alerts.
+- **Bought or sold?** Use "Update my portfolio" on the page. The details are encrypted in your browser; GitHub applies them and rebuilds the page.
+- **Watchlist:** same form ("WATCH ADD LUCK MTL PSO").
+
+## Privacy
+Holdings are stored encrypted (`config/holdings.enc`, AES-256-GCM). Choose a strong `HOLDINGS_KEY`: anyone can download that file, and only the passphrase protects it. The public page shows percentages, not rupee amounts or share counts (`show_rs_amounts` in `config/settings.json`). Update issues contain only encrypted text, and only the repository owner's issues are processed. Never put AKD login details anywhere.
+
+## Files you can edit
+`config/watchlist.csv` (also editable from the page), `config/sector_targets.csv`, `config/settings.json` (rules, news searches, `github_repo`).
+
+## Local checks
 ```
 pip install -r requirements.txt
-python src/main.py --selftest      # shows which PSX feeds answer from your machine
-python src/main.py --no-notify     # builds docs/index.html with live data; open it in a browser
-python src/main.py --offline       # builds from the saved CSV prices, no network
+python src/main.py --selftest   # which PSX feeds answer from your machine
+python src/main.py --offline    # builds docs/index.html from saved prices
 ```
-The PSX endpoints were written from the public portal's structure and could not be tested when this was built. If a line says FAIL, send me the message and I will fix that fetcher.
-
-## 2. Publish it online (free)
-1. Make a GitHub repository and push this folder. `config/holdings.csv` is git-ignored on purpose, so your quantities and costs are not published.
-2. Repo Settings > Secrets and variables > Actions > New secret `HOLDINGS_CSV`: paste the full contents of your `config/holdings.csv`.
-3. Settings > Pages > Source: branch `main`, folder `/docs`. Your dashboard is at `https://<user>.github.io/<repo>/`.
-4. Actions tab > "Refresh PSX dashboard" > Run workflow. It then runs every 30 minutes from 09:00 to 14:30 PKT and at 15:45 PKT on weekdays.
-By default the page shows percentages only, no rupee amounts or quantities (`show_rs_amounts: false`). Public repos and Pages are visible to anyone with the link.
-
-## 3. Phone and email alerts
-Add these Actions secrets: `NTFY_TOPIC` (a long random topic name; install the free ntfy app and subscribe to it), `EMAIL_USER` (your Gmail), `EMAIL_APP_PASSWORD` (a Google App Password, not your real password), optional `EMAIL_TO`. Add a repository variable `DASH_URL` with your page link so a tap on the notification opens it.
-Alerts are sent once per rule per day. The 15:45 run always sends a summary.
 
 ## Limits
-- GitHub's scheduler can run several minutes late or skip a run. It is not tick-by-tick.
-- If PSX blocks GitHub's servers, run `python src/main.py` on your own computer (cron / Task Scheduler) or on a small always-on machine and publish `docs/` anywhere.
-- Never put your AKD login, PIN or CNIC anywhere in this project.
+GitHub's scheduler can run late or skip. Feeds are scraped from public PSX pages and can break if PSX changes them. Price history is gathered a few months at a time and fills in over a day or two. Not investment advice.
