@@ -1,0 +1,60 @@
+name: Apply portfolio update
+# Triggered by the dashboard's "Update my portfolio" form, which opens an issue whose body is ENCRYPTED.
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+jobs:
+  apply:
+    if: github.event.issue.user.login == github.repository_owner && github.event.issue.title == 'Portfolio update'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Load private holdings
+        env:
+          HOLDINGS_CSV: ${{ secrets.HOLDINGS_CSV }}
+          HOLDINGS_KEY: ${{ secrets.HOLDINGS_KEY }}
+        run: python src/vault.py load
+      - name: Apply the encrypted update
+        env:
+          HOLDINGS_KEY: ${{ secrets.HOLDINGS_KEY }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: python src/trade.py
+      - name: Rebuild dashboard
+        if: hashFiles('.changed') != ''
+        env:
+          HOLDINGS_KEY: ${{ secrets.HOLDINGS_KEY }}
+        run: |
+          python src/vault.py save
+          python src/main.py --no-notify --no-history
+      - name: Save and publish
+        if: hashFiles('.changed') != ''
+        run: |
+          git config user.name "psx-bot"; git config user.email "psx-bot@users.noreply.github.com"
+          git add docs config/holdings.enc config/watchlist.csv
+          if ! git diff --staged --quiet; then
+            git commit -m "Portfolio update"
+            for i in 1 2 3; do
+              git pull --rebase -X theirs origin main && git push && exit 0
+              sleep 5
+            done
+            exit 1
+          fi
+      - name: Reply and close the issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          MSG="Rejected: the update could not be processed (see the Actions tab)."
+          if [ -f result.txt ]; then MSG="$(cat result.txt)"; fi
+          gh issue comment ${{ github.event.issue.number }} --repo ${{ github.repository }} --body "$MSG"
+          gh issue close ${{ github.event.issue.number }} --repo ${{ github.repository }}
