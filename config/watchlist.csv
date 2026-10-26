@@ -1,0 +1,8 @@
+ticker,sector,price,change_pct,price_time,low52,high52,eps,dps,note
+LUCK,Cement,386.01,-0.04,12:55,339.00,529.50,60.78,5,Cement leader; low payout
+MTL,Auto/tractors,277.99,-0.53,12:55,232.50,318.90,20.23,21,High payout; check sustainability
+FCCL,Cement,49.47,-0.36,11:34,36.26,61.09,,,EPS and dividend not yet checked
+ENGROH,Fertilizer/holding,245.46,-1.86,Fri close,209.03,302.50,,,H1 2026 profit -41%; borrowings up
+PSO,Oil marketing,343.00,-0.60,10:35,320.11,506.75,,,Near 52-week low; dividend not yet checked
+SNGP,Gas utility,90.13,-0.57,Fri close,83.20,138.90,,,Near 52-week low; check circular debt
+ATRL,Refinery,1090.75,0.11,Fri close,597.10,1250.00,,,Strong run-up; dividend not yet checked

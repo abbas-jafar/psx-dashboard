@@ -1,0 +1,32 @@
+{
+  "dashboard_title": "My PSX dashboard",
+  "show_rs_amounts": false,
+  "rules": {
+    "near_low_pct": 5,
+    "below_avg_pct": 15,
+    "max_stock_weight_pct": 12,
+    "max_sector_weight_pct": 25,
+    "sector_drift_pct": 5,
+    "day_drop_pct": 3,
+    "index_drop_pct": 1.5,
+    "opp_min_yield_pct": 4,
+    "opp_max_pe": 10,
+    "opp_near_low_pct": 10,
+    "opp_below_avg_pct": 8,
+    "trim_yield_below_pct": 3,
+    "trim_range_pos_pct": 85,
+    "high_payout_pct": 90
+  },
+  "news_queries": [
+    "SBP monetary policy rate Pakistan",
+    "KSE-100 PSX Pakistan stock market",
+    "Pakistan economy IMF budget"
+  ],
+  "company_names": {
+    "SYS": "Systems Limited", "SSGC": "Sui Southern Gas", "PAEL": "Pak Elektron",
+    "OGDC": "OGDC", "PPL": "Pakistan Petroleum", "MARI": "Mari Petroleum", "POL": "Pakistan Oilfields",
+    "HUBC": "Hub Power", "MEBL": "Meezan Bank", "FFC": "Fauji Fertilizer", "EFERT": "Engro Fertilizers",
+    "FATIMA": "Fatima Fertilizer", "SAZEW": "Sazgar Engineering", "GLAXO": "GlaxoSmithKline Pakistan",
+    "HALEON": "Haleon Pakistan", "DGKC": "DG Khan Cement", "MLCF": "Maple Leaf Cement", "KOHC": "Kohat Cement"
+  }
+}

@@ -1,0 +1,39 @@
+name: Refresh PSX dashboard
+on:
+  schedule:
+    - cron: '*/30 4-9 * * 1-5'   # every 30 min, 09:00-14:30 PKT, Mon-Fri
+    - cron: '45 10 * * 1-5'      # 15:45 PKT daily report
+  workflow_dispatch:             # the "Run workflow" button (Actions tab) = refresh now
+permissions:
+  contents: write
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Load private holdings from secret
+        env:
+          HOLDINGS_CSV: ${{ secrets.HOLDINGS_CSV }}
+        run: |
+          if [ -n "$HOLDINGS_CSV" ]; then printf '%s\n' "$HOLDINGS_CSV" > config/holdings.csv; else echo "No HOLDINGS_CSV secret: using config/holdings.csv from the repo"; fi
+      - name: Build dashboard
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          DASH_URL: ${{ vars.DASH_URL }}
+        run: |
+          if [ "${{ github.event.schedule }}" = "45 10 * * 1-5" ]; then python src/main.py --daily; else python src/main.py; fi
+      - name: Publish
+        run: |
+          git config user.name "psx-bot"; git config user.email "psx-bot@users.noreply.github.com"
+          git add docs
+          git diff --staged --quiet || (git commit -m "Refresh dashboard" && git push)
