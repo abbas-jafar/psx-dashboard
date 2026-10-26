@@ -1,5 +1,5 @@
 {
-  "dashboard_title": "My PSX dashboard",
+  "dashboard_title": "PSX Portfolio Dashboard",
   "show_rs_amounts": false,
   "rules": {
     "near_low_pct": 5,
@@ -23,10 +23,24 @@
     "Pakistan economy IMF budget"
   ],
   "company_names": {
-    "SYS": "Systems Limited", "SSGC": "Sui Southern Gas", "PAEL": "Pak Elektron",
-    "OGDC": "OGDC", "PPL": "Pakistan Petroleum", "MARI": "Mari Petroleum", "POL": "Pakistan Oilfields",
-    "HUBC": "Hub Power", "MEBL": "Meezan Bank", "FFC": "Fauji Fertilizer", "EFERT": "Engro Fertilizers",
-    "FATIMA": "Fatima Fertilizer", "SAZEW": "Sazgar Engineering", "GLAXO": "GlaxoSmithKline Pakistan",
-    "HALEON": "Haleon Pakistan", "DGKC": "DG Khan Cement", "MLCF": "Maple Leaf Cement", "KOHC": "Kohat Cement"
-  }
+    "SYS": "Systems Limited",
+    "SSGC": "Sui Southern Gas",
+    "PAEL": "Pak Elektron",
+    "OGDC": "OGDC",
+    "PPL": "Pakistan Petroleum",
+    "MARI": "Mari Petroleum",
+    "POL": "Pakistan Oilfields",
+    "HUBC": "Hub Power",
+    "MEBL": "Meezan Bank",
+    "FFC": "Fauji Fertilizer",
+    "EFERT": "Engro Fertilizers",
+    "FATIMA": "Fatima Fertilizer",
+    "SAZEW": "Sazgar Engineering",
+    "GLAXO": "GlaxoSmithKline Pakistan",
+    "HALEON": "Haleon Pakistan",
+    "DGKC": "DG Khan Cement",
+    "MLCF": "Maple Leaf Cement",
+    "KOHC": "Kohat Cement"
+  },
+  "github_repo": "abbas-jafar/psx-dashboard"
 }
