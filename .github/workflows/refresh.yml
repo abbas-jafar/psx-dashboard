@@ -23,6 +23,10 @@ jobs:
           HOLDINGS_CSV: ${{ secrets.HOLDINGS_CSV }}
         run: |
           if [ -n "$HOLDINGS_CSV" ]; then printf '%s\n' "$HOLDINGS_CSV" > config/holdings.csv; else echo "No HOLDINGS_CSV secret: using config/holdings.csv from the repo"; fi
+      - name: Probe PSX feeds (manual runs only)
+        if: github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        run: python src/probe.py
       - name: Build dashboard
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
