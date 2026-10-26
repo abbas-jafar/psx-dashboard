@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>__TITLE__</title>
+<style>
+:root{--bg1:#eef3fb;--bg2:#f8f6f2;--panel:#fff;--fg:#14213d;--mut:#5d6b82;--line:#e3e8f0;--ok:#15803d;--okbg:#dcfce7;--bad:#b91c1c;--badbg:#fee2e2;--warn:#b45309;--warnbg:#fef3c7;--acc:#2563eb;--accbg:#dbeafe;--tgt:#c7d0de;--shadow:0 1px 2px rgba(20,33,61,.06),0 6px 18px rgba(20,33,61,.06)}
+@media(prefers-color-scheme:dark){:root{--bg1:#0b1220;--bg2:#101a2e;--panel:#16213a;--fg:#e8eefc;--mut:#9fb0cc;--line:#26344f;--ok:#4ade80;--okbg:#12361f;--bad:#f87171;--badbg:#3b1717;--warn:#fbbf24;--warnbg:#3a2c0b;--acc:#7aa7ff;--accbg:#18284d;--tgt:#3a4a68;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;color:var(--fg);font:15px/1.5 "Segoe UI",Inter,system-ui,-apple-system,Roboto,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2) 600px) fixed}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 70px}
+.hero{background:linear-gradient(135deg,#0b2447 0%,#19376d 55%,#1f6f8b 100%);color:#fff;border-radius:0 0 22px 22px;padding:22px 22px 18px;margin:0 -16px;box-shadow:0 10px 30px rgba(11,36,71,.35)}
+@media(min-width:1212px){.hero{margin:0;border-radius:0 0 22px 22px}}
+.hero-top{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{display:flex;gap:14px;align-items:center}.logo{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.14);display:grid;place-items:center}
+h1{margin:0;font-size:28px;letter-spacing:.2px;font-weight:700}.tag{margin:2px 0 0;color:#c7d8f5;font-size:13px;letter-spacing:.4px}
+.kse{text-align:right}.kse small{display:block;color:#b8cdf0;font-size:12px;letter-spacing:1px;text-transform:uppercase}.kse b{font-size:26px;font-variant-numeric:tabular-nums}.kse span{margin-left:8px;font-weight:700;padding:2px 9px;border-radius:99px;font-size:13px}
+.up{background:#16a34a;color:#fff}.dn{background:#dc2626;color:#fff}
+.upd{color:#b8cdf0;font-size:12px;margin-top:2px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 14px}
+.btn{border:0;border-radius:11px;padding:10px 18px;font:600 14px/1 "Segoe UI",system-ui,sans-serif;color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center;box-shadow:0 4px 12px rgba(0,0,0,.25);transition:transform .12s}
+.btn:hover{transform:translateY(-1px)}.b1{background:linear-gradient(135deg,#2563eb,#1d4ed8)}.b2{background:linear-gradient(135deg,#16a34a,#15803d)}.b3{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.feeds{display:flex;flex-wrap:wrap;gap:8px}.feed{font-size:12.5px;font-weight:600;border-radius:99px;padding:4px 12px;display:inline-flex;gap:6px;align-items:center;cursor:help}
+.feed.ok{background:rgba(34,197,94,.18);color:#bbf7d0;border:1px solid rgba(34,197,94,.45)}.feed.bad{background:rgba(239,68,68,.2);color:#fecaca;border:1px solid rgba(239,68,68,.55)}
+.nav{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow-x:auto;padding:10px 0;margin:0 -4px;backdrop-filter:blur(8px)}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:5px 14px;font-size:13px;font-weight:600}
+.nav a:hover{border-color:var(--acc);color:var(--acc)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:6px 0 4px}
+.tile{border-radius:16px;padding:16px 18px;color:#fff;box-shadow:var(--shadow)}
+.t1{background:linear-gradient(135deg,#334155,#1e293b)}.t1.g{background:linear-gradient(135deg,#16a34a,#166534)}.t1.r{background:linear-gradient(135deg,#dc2626,#991b1b)}
+.t3{background:linear-gradient(135deg,#2563eb,#1e40af)}.t4{background:linear-gradient(135deg,#d97706,#92400e)}
+.tile .l{font-size:12px;letter-spacing:.8px;text-transform:uppercase;opacity:.85}.tile .b{font-size:32px;font-weight:700;line-height:1.15;margin:4px 0;font-variant-numeric:tabular-nums}.tile .s{font-size:13px;opacity:.9}
+h2{font-size:22px;margin:38px 0 4px;font-weight:700;display:flex;align-items:center;gap:10px}h2::before{content:"";width:6px;height:22px;border-radius:3px;background:linear-gradient(var(--acc),#14b8a6)}
+.note{color:var(--mut);font-size:13.5px;margin:0 0 12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);min-width:0}
+.card h3{margin:0 0 2px;font-size:17px}.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:16px}.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
+.item{display:flex;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);border-left-width:5px;margin:8px 0;align-items:flex-start;background:var(--panel)}
+.item .tk{font-weight:800;min-width:62px;font-size:15px}.item .tx{flex:1;min-width:0}.item .tx b{display:block}.item .tx span{color:var(--mut);font-size:13.5px}
+.s-review{border-left-color:#dc2626}.s-trim,.s-sector{border-left-color:#d97706}.s-watch{border-left-color:#2563eb}.s-opportunity{border-left-color:#16a34a}.s-info{border-left-color:#94a3b8}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
+.p-review{background:var(--badbg);color:var(--bad)}.p-trim,.p-sector{background:var(--warnbg);color:var(--warn)}.p-watch{background:var(--accbg);color:var(--acc)}.p-opportunity,.p-good{background:var(--okbg);color:var(--ok)}.p-info,.p-grey{background:var(--line);color:var(--mut)}
+.more{margin-top:8px;background:var(--accbg);color:var(--acc);border:0;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:13.5px}.more:hover{filter:brightness(.96)}
+.hide{display:none}.empty{color:var(--mut);font-size:14px;padding:6px 0}
+svg{width:100%;height:auto;display:block}svg text{fill:var(--fg);font-family:"Segoe UI",system-ui,sans-serif}svg .m{fill:var(--mut)}
+.tblw{overflow-x:auto;border-radius:16px;border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;font-variant-numeric:tabular-nums}
+thead th{background:#1b4a78;color:#fff;text-align:left;font-size:12px;letter-spacing:.7px;text-transform:uppercase;padding:11px 12px;white-space:nowrap;position:sticky;top:0}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}tbody tr:nth-child(even){background:rgba(100,130,190,.05)}tbody tr:hover{background:var(--accbg)}
+.n{text-align:right}.tkr{font-weight:800;font-size:16px;letter-spacing:.3px}.sec{display:block;font-size:11.5px;color:var(--mut);font-weight:600}
+.num{display:inline-block;min-width:68px;text-align:center;border-radius:9px;padding:3px 8px;font-weight:800}.gain{background:var(--okbg);color:var(--ok)}.loss{background:var(--badbg);color:var(--bad)}.flat{background:var(--line);color:var(--mut)}
+.bar{display:inline-block;width:92px;height:8px;border-radius:5px;background:var(--line);position:relative;vertical-align:middle}.bar i{position:absolute;top:-3px;width:14px;height:14px;border-radius:50%;border:3px solid #fff;margin-left:-7px;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.rowbtn{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:8px;padding:3px 9px;font-size:12px;font-weight:700;cursor:pointer;margin-left:4px}.rowbtn:hover{border-color:var(--acc);color:var(--acc)}
+.how{margin:0 0 10px;color:var(--mut);font-size:13.5px}.how summary{cursor:pointer;font-weight:700;color:var(--acc)}.how div{padding:6px 0 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.chip{border-radius:10px;background:var(--bg1);border:1px solid var(--line);padding:6px 12px;font-size:13px}.chip b{display:block;font-size:16px}
+.rng{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.rng button{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:99px;padding:5px 13px;font-weight:700;cursor:pointer;font-size:13px}.rng button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+select,input,textarea{font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px}textarea{width:100%;min-height:110px;font-family:Consolas,monospace}
+.kf h3{font-size:17px}.kf ul{margin:6px 0 8px;padding-left:20px}.kf li{margin:4px 0}.src{display:flex;gap:6px;flex-wrap:wrap}.src a{font-size:12.5px;font-weight:700;text-decoration:none;color:var(--acc);background:var(--accbg);border-radius:99px;padding:3px 11px}
+.li{padding:8px 0;border-bottom:1px solid var(--line)}.li:last-child{border:0}.li a{color:var(--fg);text-decoration:none;font-weight:600}.li a:hover{color:var(--acc)}.li small{color:var(--mut)}
+.scrollbox{max-height:430px;overflow:auto;margin-top:6px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;align-items:end}.form label{font-size:12.5px;font-weight:700;color:var(--mut);display:block}.form input,.form select{width:100%}
+.warnbox{background:var(--warnbg);color:var(--warn);border-radius:12px;padding:10px 14px;font-size:13.5px;margin:10px 0}
+.foot{color:var(--mut);font-size:12.5px;margin-top:34px}
+@media(max-width:640px){h1{font-size:22px}.kse{text-align:left}.tile .b{font-size:26px}}
+</style></head><body><div class="wrap">
+<header class="hero">
+ <div class="hero-top">
+  <div class="brand"><div class="logo"><svg width="30" height="30" viewBox="0 0 30 30"><rect x="3" y="15" width="5" height="12" rx="1.5" fill="#7dd3fc"/><rect x="12" y="9" width="5" height="18" rx="1.5" fill="#34d399"/><rect x="21" y="3" width="5" height="24" rx="1.5" fill="#fbbf24"/></svg></div>
+  <div><h1 id="title"></h1><p class="tag">SHARIAH-COMPLIANT &nbsp;·&nbsp; DIVIDEND-FOCUSED &nbsp;·&nbsp; LONG-TERM</p></div></div>
+  <div class="kse"><small>KSE-100</small><b id="kse-level">—</b><span id="kse-chg"></span><div class="upd" id="gen"></div></div>
+ </div>
+ <div class="actions"><a class="btn b1" href="#" onclick="location.reload();return false">⟳ Reload page</a><a class="btn b2" id="runlink" href="#" target="_blank" rel="noopener">⚡ Refresh data now</a><a class="btn b3" href="#update">＋ Update my portfolio</a></div>
+ <div class="feeds" id="feeds"></div>
+</header>
+<nav class="nav"><a href="#alerts">Alerts</a><a href="#charts">Charts</a><a href="#history">Price history</a><a href="#news">What happened</a><a href="#holdings">Holdings</a><a href="#watchlist">Watchlist</a><a href="#update">Update portfolio</a></nav>
+<div class="tiles" id="tiles"></div>
+
+<h2 id="alerts">Alerts and opportunities</h2><p class="note">The most important first. Tap “Show all” to open the full, priority-ordered list. These are prompts to check, not trade orders.</p>
+<div class="grid2"><div class="card"><h3>⚠ Needs your attention <span id="a-count" class="pill p-trim"></span></h3><div id="a-list"></div></div>
+<div class="card"><h3>✔ Opportunities <span id="o-count" class="pill p-good"></span></h3><div id="o-list"></div></div></div>
+
+<h2 id="charts">Charts</h2>
+<div class="grid2"><div class="card"><h3>Sector mix against target</h3><p class="note">Bars show today’s share of your portfolio; the dark tick is your target.</p><div id="c-sector"></div></div>
+<div class="card"><h3>Gain or loss since you bought</h3><p class="note">Percent against your average buying price.</p><div id="c-pl"></div></div></div>
+<div class="card" style="margin-top:16px"><h3>Dividend yield by stock</h3><p class="note">Yield is the yearly dividend as a share of today’s price, so higher means more income. <b style="color:var(--ok)">Green</b> means yield of 4% or more and P/E of 10 or less (good income at a fair price). <b style="color:var(--warn)">Amber</b> means high yield but pricey. Grey is under 4%.</p><div id="c-yield"></div></div>
+
+<h2 id="history">Price history explorer</h2><p class="note">Pick a stock and a period to see how its price moved over 1 month up to 10 years.</p>
+<div class="card"><div class="form" style="grid-template-columns:minmax(200px,320px) 1fr"><div><label>Stock</label><select id="h-sym"></select></div><div><label>Period</label><div class="rng" id="h-rng"></div></div></div>
+<div class="chips" id="h-stats"></div><div id="h-chart"></div><p class="note" id="h-note"></p></div>
+
+<h2 id="news">What happened</h2><p class="note">Only the important items first. Everything else is one tap away.</p>
+<div class="card"><h3>Your stocks: key events</h3><p class="note">Results, dividends, risk notices and other material news for the companies you hold.</p><div id="ev-key"></div><button class="more" id="ev-btn"></button><div class="scrollbox hide" id="ev-all"></div></div>
+<h3 style="margin:22px 0 4px">Key findings from today’s headlines</h3><p class="note">A short summary of what the headlines say, so you don’t need to open every article. Use the source buttons for the full story.</p>
+<div class="grid2" id="kf"></div><button class="more hide" id="kf-btn"></button>
+<div class="card" style="margin-top:16px"><h3>Latest headlines</h3><div id="hl"></div><button class="more hide" id="hl-btn"></button></div>
+
+<h2 id="holdings">My holdings</h2>
+<details class="how"><summary>How to read this table</summary><div><b>Weight</b> = share of your portfolio. <b>Today</b> = price change today. <b>Gain/Loss</b> = against your average buying price. <b>52-week position</b>: red dot means near the yearly low, amber near the yearly high. <b>Yield</b> = yearly dividend ÷ price (green is 4% or more). <b>P/E</b> = price ÷ yearly earnings (lower is cheaper). <b>Payout</b> = share of profit paid as dividend. <b>Signal</b> shows the most important rule that applies.</div></details>
+<div class="tblw" id="hold"></div>
+
+<h2 id="watchlist">Watchlist</h2><p class="note">Stocks you are studying. Yield and P/E come from PSX when you haven’t typed your own figures.</p>
+<div class="tblw" id="watch"></div>
+
+<h2 id="update">Update my portfolio</h2>
+<div class="card"><p class="note">Bought or sold shares? Added a stock to study? List the changes below. Everything else (sector, prices, ranges, yield) is filled in automatically. Your details are <b>encrypted on this device</b> before they leave it, then GitHub applies the change and rebuilds this page in about a minute.</p>
+<div class="form"><div><label>What happened</label><select id="f-act"><option value="BUY">I bought</option><option value="SELL">I sold</option><option value="SET">Correct my position</option><option value="WATCH ADD">Add to watchlist</option><option value="WATCH REMOVE">Remove from watchlist</option></select></div>
+<div><label>Stock symbol</label><input id="f-sym" list="symlist" placeholder="e.g. HUBC" autocomplete="off"></div><div><label>Shares</label><input id="f-qty" inputmode="decimal" placeholder="e.g. 100"></div><div><label>Price per share (Rs)</label><input id="f-px" inputmode="decimal" placeholder="e.g. 188.50"></div><div><button class="btn b1" id="f-add" type="button">Add to list</button></div></div>
+<datalist id="symlist"></datalist>
+<p class="note" style="margin-top:12px">Changes to send (one per line, you can edit). Examples: <code>BUY HUBC 100 @ 188.5</code> · <code>SELL OGDC 20 @ 301</code> · <code>WATCH ADD LUCK MTL PSO</code> · <code>WATCH REMOVE SNGP</code></p>
+<textarea id="f-text" placeholder="BUY HUBC 100 @ 188.5"></textarea>
+<div class="form" style="margin-top:10px"><div><label>Passphrase (same as your HOLDINGS_KEY secret)</label><input id="f-pass" type="password" autocomplete="off"></div><div><label>&nbsp;</label><label style="font-weight:600"><input type="checkbox" id="f-rem" style="width:auto"> Remember on this device</label></div><div><button class="btn b2" id="f-send" type="button">🔒 Encrypt and open on GitHub</button></div></div>
+<p class="note" id="f-msg"></p>
+<div class="warnbox">On the GitHub page that opens, just press the green <b>“Submit new issue”</b> button. You must be signed in to GitHub. Only the repository owner’s update is applied.</div></div>
+
+<p class="foot">Prices come from the PSX data portal and may be delayed. Dividend and earnings figures are the latest available and can be out of date. Alerts are prompts to check, not investment advice.</p>
+</div>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D=JSON.parse(document.getElementById('data').textContent),$=id=>document.getElementById(id);
+const NS='http://www.w3.org/2000/svg',f1=v=>v==null||isNaN(v)?'—':(Math.round(v*10)/10).toFixed(1),pct=v=>v==null||isNaN(v)?'—':(v>=0?'+':'−')+f1(Math.abs(v))+'%';
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rs=v=>'Rs '+Math.round(v).toLocaleString('en-US'),tc=s=>String(s).replace(/\b[a-z]/g,c=>c.toUpperCase());
+const clip=(s,n)=>s.length>n?s.slice(0,n-1)+'…':s;
+$('title').textContent=D.title;$('gen').textContent='Updated '+D.generated;
+const rl=D.repo?`https://github.com/${D.repo}/actions/workflows/refresh.yml`:'#';$('runlink').href=rl;
+const I=D.index;if(I){$('kse-level').textContent=I.level.toLocaleString('en-US',{maximumFractionDigits:0});if(I.change_pct!=null){$('kse-chg').textContent=pct(I.change_pct);$('kse-chg').className=I.change_pct>=0?'up':'dn'}}
+$('feeds').innerHTML=D.status.map(s=>`<span class="feed ${s.ok?'ok':'bad'}" title="${esc(s.note)}">${s.ok?'✔':'✖'} ${esc(s.name)}${s.ok?'':' · check'}</span>`).join('');
+const T=D.totals,held=D.holdings.filter(r=>D.show_rs?r.qty>0:r.held),plans=D.holdings.filter(r=>!r.held&&!(r.qty>0));
+const risk=D.alerts.filter(a=>a.kind!=='opportunity'),opp=D.alerts.filter(a=>a.kind==='opportunity');
+const attn=risk.filter(a=>a.kind==='risk');
+function tile(cls,l,b,s){return `<div class="tile ${cls}"><div class="l">${l}</div><div class="b">${b}</div><div class="s">${s||''}</div></div>`}
+const dc=T.day_change_pct,pl=T.pl_pct;
+$('tiles').innerHTML=[tile('t1 '+(dc>=0?'g':'r'),'Portfolio today',pct(dc),D.show_rs?(T.day_change>=0?'+':'−')+rs(Math.abs(T.day_change)):'change since yesterday'),
+ tile('t1 '+(pl>=0?'g':'r'),'Gain or loss on cost',pct(pl),D.show_rs?(T.pl>=0?'+':'−')+rs(Math.abs(T.pl)):T.n_held+' holdings'),
+ tile('t3','KSE-100',I?I.level.toLocaleString('en-US',{maximumFractionDigits:0}):'—',I&&I.change_pct!=null?pct(I.change_pct)+' today':'not retrieved'),
+ tile('t4','Needs attention',attn.length,opp.length+' opportunit'+(opp.length===1?'y':'ies'))].join('');
+// ---- alerts
+const sevLabel={review:'Review now',trim:'Trim',sector:'Sector limit',watch:'Watch',opportunity:'Opportunity',info:'Info'};
+const alertHtml=a=>`<div class="item s-${a.severity}"><div class="tk">${esc(a.ticker)}</div><div class="tx"><b>${esc(a.rule)}</b><span>${esc(a.detail)}</span></div><span class="pill p-${a.severity}">${sevLabel[a.severity]||a.severity}</span></div>`;
+function expandable(el,btn,items,n,render,label){let open=false;const draw=()=>{el.innerHTML=(open?items:items.slice(0,n)).map(render).join('')||'<p class="empty">Nothing right now.</p>';if(items.length>n){btn.classList.remove('hide');btn.textContent=open?'Show fewer':`Show all ${items.length} ${label}`}else btn.classList.add('hide')};btn.onclick=()=>{open=!open;draw()};draw()}
+function mkBtn(parent){const b=document.createElement('button');b.className='more';parent.appendChild(b);return b}
+$('a-count').textContent=attn.length;$('o-count').textContent=opp.length;
+const allAttn=attn.concat(risk.filter(a=>a.kind==='info'));
+expandable($('a-list'),mkBtn($('a-list').parentNode),allAttn,4,alertHtml,'alerts');
+expandable($('o-list'),mkBtn($('o-list').parentNode),opp,3,alertHtml,'opportunities');
+// ---- charts
+function svg(w,h){const s=document.createElementNS(NS,'svg');s.setAttribute('viewBox',`0 0 ${w} ${h}`);return s}
+function el(p,t,a,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;p.appendChild(e);return e}
+const PAL=['#2563eb','#0ea5e9','#14b8a6','#f59e0b','#8b5cf6','#ec4899','#ef4444','#64748b'];
+(()=>{const m=D.sector_mix,W=560,rh=52,H=m.length*rh+8,L=118,mx=Math.max(30,...m.map(r=>Math.max(r.current_pct,r.target_pct)))*1.08,x=v=>L+v/mx*(W-L-70),s=svg(W,H);
+m.forEach((r,i)=>{const y=i*rh+6,c=PAL[i%PAL.length],d=r.current_pct-r.target_pct;
+el(s,'text',{x:L-12,y:y+19,'text-anchor':'end','font-size':14,'font-weight':700},tc(r.sector));
+el(s,'rect',{x:L,y:y+2,width:W-L-70,height:22,rx:6,fill:'var(--line)',opacity:.55});
+if(r.current_pct>0)el(s,'rect',{x:L,y:y+2,width:Math.max(4,x(r.current_pct)-L),height:22,rx:6,fill:c});
+el(s,'line',{x1:x(r.target_pct),x2:x(r.target_pct),y1:y-2,y2:y+28,stroke:'var(--fg)','stroke-width':2.5});
+el(s,'text',{x:W-62,y:y+19,'font-size':14,'font-weight':800},f1(r.current_pct)+'%');
+el(s,'text',{x:L,y:y+42,'font-size':12,class:'m'},`Target ${f1(r.target_pct)}% · `);
+el(s,'text',{x:L+78,y:y+42,'font-size':12,'font-weight':700,fill:Math.abs(d)<=3?'var(--ok)':d>0?'var(--warn)':'var(--acc)'},Math.abs(d)<0.05?'on target':(d>=0?'+':'−')+f1(Math.abs(d))+' pts '+(d>=0?'over':'under'))});
+$('c-sector').appendChild(s)})();
+(()=>{const rows=held.filter(r=>r.pl_pct!=null).sort((a,b)=>a.pl_pct-b.pl_pct);if(!rows.length){$('c-pl').innerHTML='<p class="empty">No holdings yet.</p>';return}
+const W=560,rh=30,H=rows.length*rh+10,L=78,mx=Math.max(10,...rows.map(r=>Math.abs(r.pl_pct))),zero=L+(W-L-20)*0.5,k=(W-L-20)*0.5*0.72/mx,s=svg(W,H);
+el(s,'line',{x1:zero,x2:zero,y1:0,y2:H,stroke:'var(--line)','stroke-width':2});
+rows.forEach((r,i)=>{const y=i*rh+5,w=Math.abs(r.pl_pct)*k,pos=r.pl_pct>=0;el(s,'text',{x:L-10,y:y+17,'text-anchor':'end','font-size':14,'font-weight':800},r.ticker);
+el(s,'rect',{x:pos?zero:zero-w,y:y+2,width:Math.max(3,w),height:20,rx:5,fill:pos?'#16a34a':'#dc2626'});
+el(s,'text',{x:pos?zero+w+7:zero-w-7,y:y+18,'text-anchor':pos?'start':'end','font-size':14,'font-weight':800,fill:pos?'var(--ok)':'var(--bad)'},pct(r.pl_pct))});$('c-pl').appendChild(s)})();
+(()=>{const rows=held.concat(D.watchlist).filter(r=>r.yield_pct!=null&&r.yield_pct>0).sort((a,b)=>b.yield_pct-a.yield_pct);if(!rows.length){$('c-yield').innerHTML='<p class="empty">No dividend data yet.</p>';return}
+const W=900,rh=30,H=rows.length*rh+30,L=84,mx=Math.max(6,...rows.map(r=>r.yield_pct))*1.05,x=v=>L+v/mx*(W-L-190),s=svg(W,H);
+el(s,'line',{x1:x(4),x2:x(4),y1:12,y2:H-6,stroke:'var(--ok)','stroke-dasharray':'5 4','stroke-width':2});el(s,'text',{x:x(4)+5,y:10,'font-size':12,'font-weight':700,fill:'var(--ok)'},'4% goal');
+rows.forEach((r,i)=>{const y=i*rh+18,good=r.yield_pct>=4&&r.pe!=null&&r.pe<=10,mid=r.yield_pct>=4,c=good?'#16a34a':mid?'#f59e0b':'#94a3b8',w=!(r.held||r.qty>0);
+el(s,'text',{x:L-10,y:y+15,'text-anchor':'end','font-size':14,'font-weight':800},r.ticker+(w?' ◦':''));
+el(s,'rect',{x:L,y:y+2,width:Math.max(3,x(r.yield_pct)-L),height:20,rx:5,fill:c});
+el(s,'text',{x:x(r.yield_pct)+8,y:y+17,'font-size':14,'font-weight':800},f1(r.yield_pct)+'%');
+el(s,'text',{x:W-10,y:y+17,'text-anchor':'end','font-size':13,class:'m'},r.pe!=null?'P/E '+f1(r.pe):'P/E —')});
+$('c-yield').appendChild(s);$('c-yield').insertAdjacentHTML('beforeend','<p class="note">◦ = watchlist stock</p>')})();
+// ---- history
+const RANGES=[['1M',31],['3M',92],['6M',183],['YTD','ytd'],['1Y',365],['2Y',730],['3Y',1095],['5Y',1826],['10Y',3652],['Max',0]];
+let hrange='1Y',hrows=null;
+const all=held.concat(plans,D.watchlist),seen=new Set();
+$('h-sym').innerHTML=[['My holdings',held],['Watchlist',D.watchlist]].map(([g,l])=>`<optgroup label="${g}">${l.filter(r=>!seen.has(r.ticker)&&seen.add(r.ticker)).map(r=>`<option value="${r.ticker}">${r.ticker} · ${esc(tc(r.sector||''))}</option>`).join('')}</optgroup>`).join('');
+$('h-rng').innerHTML=RANGES.map(([n])=>`<button data-r="${n}" class="${n===hrange?'on':''}">${n}</button>`).join('');
+const dparse=n=>new Date(Math.floor(n/10000),Math.floor(n/100)%100-1,n%100);
+async function loadHist(){const sym=$('h-sym').value;if(!sym)return;hrows=null;$('h-note').textContent='Loading…';try{const r=await fetch('history/'+sym+'.json?v='+Date.now());if(!r.ok)throw 0;hrows=(await r.json()).rows||[]}catch(e){hrows=null}drawHist()}
+function drawHist(){const box=$('h-chart');box.innerHTML='';$('h-stats').innerHTML='';
+if(!hrows||hrows.length<2){$('h-note').textContent='History for this stock is not available yet. It is collected a little more with every refresh, so check again later (the History light at the top shows the feed status).';return}
+const last=dparse(hrows[hrows.length-1][0]);let from=null;const rg=RANGES.find(r=>r[0]===hrange)[1];
+if(rg==='ytd')from=new Date(last.getFullYear(),0,1);else if(rg)from=new Date(last.getTime()-rg*864e5);
+const rows=hrows.filter(r=>!from||dparse(r[0])>=from);if(rows.length<2){$('h-note').textContent='Not enough data in this period yet.';return}
+const first=dparse(rows[0][0]),W=900,H=330,L=62,B=34,Tp=14,R=16,vals=rows.map(r=>r[1]),mn=Math.min(...vals),mxv=Math.max(...vals),pad=(mxv-mn||1)*0.08,lo=mn-pad,hi=mxv+pad;
+const x=i=>L+i/(rows.length-1)*(W-L-R),y=v=>H-B-(v-lo)/(hi-lo)*(H-B-Tp),s=svg(W,H);
+const up=vals[vals.length-1]>=vals[0],c=up?'#16a34a':'#dc2626';
+const defs=el(s,'defs',{}),g=el(defs,'linearGradient',{id:'hg',x1:0,y1:0,x2:0,y2:1});el(g,'stop',{offset:'0%','stop-color':c,'stop-opacity':.35});el(g,'stop',{offset:'100%','stop-color':c,'stop-opacity':0});
+for(let k=0;k<=4;k++){const v=lo+(hi-lo)*k/4;el(s,'line',{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:'var(--line)'});el(s,'text',{x:L-8,y:y(v)+4,'text-anchor':'end','font-size':12,class:'m'},v>=100?Math.round(v):v.toFixed(1))}
+for(let k=0;k<=5;k++){const i=Math.round((rows.length-1)*k/5),d=dparse(rows[i][0]);el(s,'text',{x:x(i),y:H-10,'text-anchor':k===0?'start':k===5?'end':'middle','font-size':12,class:'m'},d.toLocaleDateString('en-GB',{month:'short',year:'2-digit',day:rows.length<120?'numeric':undefined}))}
+const pts=rows.map((r,i)=>x(i).toFixed(1)+','+y(r[1]).toFixed(1));
+el(s,'polygon',{points:`${L},${H-B} ${pts.join(' ')} ${W-R},${H-B}`,fill:'url(#hg)'});el(s,'polyline',{points:pts.join(' '),fill:'none',stroke:c,'stroke-width':2.4,'stroke-linejoin':'round'});
+const cur=el(s,'circle',{r:5.5,fill:c,stroke:'#fff','stroke-width':2,cx:x(rows.length-1),cy:y(vals[vals.length-1])});
+const tip=el(s,'text',{x:L+8,y:Tp+12,'font-size':14,'font-weight':800},'');
+const ov=el(s,'rect',{x:L,y:0,width:W-L-R,height:H-B,fill:'transparent'});
+ov.addEventListener('pointermove',ev=>{const b=s.getBoundingClientRect(),px=(ev.clientX-b.left)/b.width*W,i=Math.max(0,Math.min(rows.length-1,Math.round((px-L)/(W-L-R)*(rows.length-1))));cur.setAttribute('cx',x(i));cur.setAttribute('cy',y(rows[i][1]));tip.textContent=dparse(rows[i][0]).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})+'  ·  Rs '+rows[i][1].toFixed(2)});
+box.appendChild(s);
+const ch=(vals[vals.length-1]-vals[0])/vals[0]*100,posn=(vals[vals.length-1]-mn)/((mxv-mn)||1)*100;
+$('h-stats').innerHTML=[['Change over period',`<span style="color:${c}">${pct(ch)}</span>`],['Period low','Rs '+mn.toFixed(2)],['Period high','Rs '+mxv.toFixed(2)],['Now sits at',Math.round(posn)+'% of this range'],['Latest close','Rs '+vals[vals.length-1].toFixed(2)]].map(([a,b])=>`<div class="chip">${a}<b>${b}</b></div>`).join('');
+const wanted=rg&&rg!=='ytd'?rg:0,avail=(last-dparse(hrows[0][0]))/864e5;
+$('h-note').textContent=wanted&&avail<wanted*0.9?`Only ${Math.round(avail)} days of history are collected so far (since ${dparse(hrows[0][0]).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}). Older months are added with each refresh.`:'Move your finger or mouse over the chart to read prices. Closing prices, not adjusted for dividends.'}
+$('h-rng').onclick=e=>{const b=e.target.closest('button');if(!b)return;hrange=b.dataset.r;[...$('h-rng').children].forEach(x=>x.classList.toggle('on',x===b));drawHist()};
+$('h-sym').onchange=loadHist;if($('h-sym').value)loadHist();else $('h-note').textContent='Add stocks to see history.';
+// ---- events / news
+const evAll=D.events||[],evKey=evAll.filter(e=>e.scope==='holding'&&e.key);
+const evHtml=e=>`<div class="li"><b>${esc(e.ticker)}</b> <span class="pill ${e.category==='Risk notice'?'p-review':e.category==='Results'||e.category==='Dividend / book closure'?'p-good':'p-grey'}">${esc(e.category)}</span> <small>${esc(e.date)}</small><br>${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(clip(e.title,110))}</a>`:esc(clip(e.title,110))}</div>`;
+$('ev-key').innerHTML=evKey.slice(0,6).map(evHtml).join('')||`<p class="empty">${D.status.find(s=>s.name==='Announcements'&&s.ok)?'No major announcements for your holdings in the last 2 weeks.':'Announcements feed is not working right now.'}</p>`;
+if(evAll.length){let o=false;$('ev-btn').textContent=`Show all ${evAll.length} announcements (holdings and watchlist)`;$('ev-all').innerHTML=evAll.map(evHtml).join('');$('ev-btn').onclick=()=>{o=!o;$('ev-all').classList.toggle('hide',!o);$('ev-btn').textContent=o?'Hide the full list':`Show all ${evAll.length} announcements (holdings and watchlist)`}}else $('ev-btn').classList.add('hide');
+const KF=D.key_points||[];
+const kfHtml=k=>`<div class="card kf"><h3>${esc(k.title)}</h3><ul>${k.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul><div class="src">${k.sources.map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)} ↗</a>`).join('')}</div></div>`;
+if(KF.length){let o=false;const draw=()=>{$('kf').innerHTML=(o?KF:KF.slice(0,2)).map(kfHtml).join('');$('kf-btn').classList.toggle('hide',KF.length<=2);$('kf-btn').textContent=o?'Show fewer topics':`More topics (${KF.length-2})`};$('kf-btn').onclick=()=>{o=!o;draw()};draw()}else $('kf').innerHTML='<div class="card"><p class="empty">No headlines retrieved this run.</p></div>';
+const NW=D.news||[];expandable($('hl'),$('hl-btn'),NW,8,n=>`<div class="li"><small>${esc(n.date)}</small> · <a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a></div>`,'headlines');
+// ---- tables
+const signalOf=t=>{const l=D.alerts.filter(a=>a.ticker===t);const order=['review','trim','watch','opportunity'];const hit=order.map(o=>l.find(a=>a.severity===o)).find(Boolean);return hit?[{review:'REVIEW',trim:'TRIM',watch:'NEAR LOW',opportunity:'ADD?'}[hit.severity],hit.severity]:['OK','good']};
+const planCls={core:'p-good',hold:'p-watch',new:'p-good',sell:'p-review',reduce:'p-trim'};
+const numCell=v=>v==null||isNaN(v)?'<span class="num flat">—</span>':`<span class="num ${v>0.05?'gain':v<-0.05?'loss':'flat'}">${pct(v)}</span>`;
+const posBar=r=>{if(r.range_pos==null)return '—';const p=Math.max(0,Math.min(100,r.range_pos)),c=p<=15?'#dc2626':p>=85?'#d97706':'#2563eb';return `<span class="bar"><i style="left:${p}%;background:${c}"></i></span> <small>${Math.round(p)}%</small>`};
+const yCell=v=>v==null?'—':`<b style="color:${v>=4?'var(--ok)':'inherit'};font-size:15px">${f1(v)}%</b>`;
+$('hold').innerHTML=`<table><thead><tr><th>Stock</th>${D.show_rs?'<th class="n">Value</th>':''}<th class="n">Weight</th><th class="n">Today</th><th class="n">Gain/Loss</th><th>52-week position</th><th class="n">Yield</th><th class="n">P/E</th><th class="n">Payout</th><th>Plan</th><th>Signal</th><th></th></tr></thead><tbody>${held.slice().sort((a,b)=>b.weight_pct-a.weight_pct).map(r=>{const [sg,sc]=signalOf(r.ticker);return `<tr><td><span class="tkr">${r.ticker}</span><span class="sec">${esc(tc(r.sector))}</span></td>${D.show_rs?`<td class="n"><b>${rs(r.value)}</b></td>`:''}<td class="n"><b>${f1(r.weight_pct)}%</b></td><td class="n">${numCell(r.change_pct)}</td><td class="n">${numCell(r.pl_pct)}</td><td>${posBar(r)}</td><td class="n">${yCell(r.yield_pct)}</td><td class="n"><b>${f1(r.pe)}</b></td><td class="n">${r.payout_pct==null?'—':Math.round(r.payout_pct)+'%'}</td><td><span class="pill ${planCls[r.plan]||'p-grey'}">${esc(r.plan||'')}</span></td><td><span class="pill p-${sc}">${sg}</span></td><td><button class="rowbtn" data-a="BUY" data-t="${r.ticker}">Buy</button><button class="rowbtn" data-a="SELL" data-t="${r.ticker}">Sell</button></td></tr>`}).join('')}</tbody></table>`;
+const wst=r=>{if(r.yield_pct!=null&&r.pe!=null){if(r.yield_pct>=4&&r.pe<=10&&(r.range_pos==null||r.range_pos<=35))return['WORTH STUDYING','good'];if(r.pe>15||r.yield_pct<3)return['NOT CHEAP','grey'];return['WATCH','watch']}return r.range_pos!=null&&r.range_pos<=15?['NEAR LOW','watch']:['NEEDS DATA','grey']};
+$('watch').innerHTML=`<table><thead><tr><th>Stock</th><th class="n">Price (Rs)</th><th class="n">Today</th><th>52-week position</th><th class="n">Yield</th><th class="n">P/E</th><th>Status</th><th>Note</th><th></th></tr></thead><tbody>${D.watchlist.map(r=>{const [s,c]=wst(r);return `<tr><td><span class="tkr">${r.ticker}</span><span class="sec">${esc(tc(r.sector||''))}</span></td><td class="n"><b>${r.price==null?'—':r.price.toFixed(2)}</b></td><td class="n">${numCell(r.change_pct)}</td><td>${posBar(r)}</td><td class="n">${yCell(r.yield_pct)}</td><td class="n"><b>${f1(r.pe)}</b></td><td><span class="pill p-${c}">${s}</span></td><td>${esc(r.note||'')}</td><td><button class="rowbtn" data-a="BUY" data-t="${r.ticker}">Bought</button><button class="rowbtn" data-a="WATCH REMOVE" data-t="${r.ticker}">Remove</button></td></tr>`}).join('')||'<tr><td colspan="9" class="empty">Your watchlist is empty. Add stocks below.</td></tr>'}</tbody></table>`;
+// ---- update portfolio form
+$('symlist').innerHTML=(D.symbols||[]).map(s=>`<option value="${s}">`).join('');
+const ta=$('f-text');try{const p=localStorage.getItem('psx_pass');if(p){$('f-pass').value=p;$('f-rem').checked=true}}catch(e){}
+function addLine(act,sym,qty,px){sym=(sym||'').toUpperCase().trim();if(!sym)return;ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+(act.startsWith('WATCH')?`${act} ${sym}`:`${act} ${sym} ${qty||''} @ ${px||''}`.trim())}
+$('f-add').onclick=()=>{addLine($('f-act').value,$('f-sym').value,$('f-qty').value,$('f-px').value);$('f-sym').value=$('f-qty').value=$('f-px').value=''};
+document.body.addEventListener('click',e=>{const b=e.target.closest('.rowbtn');if(!b)return;$('f-act').value=b.dataset.a;$('f-sym').value=b.dataset.t;location.hash='#update';setTimeout(()=>$((b.dataset.a.startsWith('WATCH'))?'f-add':'f-qty').focus(),300);if(b.dataset.a.startsWith('WATCH')){addLine(b.dataset.a,b.dataset.t);$('f-sym').value=''}});
+const RE=/^(buy|bought|sell|sold|set)\s+([a-z0-9]{2,8})\s+([\d,.]+)\s*(?:@|at)?\s*(?:rs\.?)?\s*([\d,.]+)$/i,RW=/^watch\s+(add|remove)\s+(.+)$/i;
+function parseLines(t){const ops=[],errs=[];t.split(/\n+/).map(s=>s.trim()).filter(Boolean).forEach(l=>{let m=l.match(RE);if(m){const k=m[1].toLowerCase();ops.push({op:k.startsWith('b')?'buy':k.startsWith('s')&&k!=='set'?'sell':'set',t:m[2].toUpperCase(),q:parseFloat(m[3].replace(/,/g,'')),p:parseFloat(m[4].replace(/,/g,''))});return}
+m=l.match(RW);if(m){m[2].split(/[\s,]+/).filter(Boolean).forEach(s=>ops.push({op:'watch_'+m[1].toLowerCase(),t:s.toUpperCase()}));return}errs.push(l)});return{ops,errs}}
+async function encrypt(text,pass){const enc=new TextEncoder(),salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+const km=await crypto.subtle.importKey('raw',enc.encode(pass),'PBKDF2',false,['deriveKey']),key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:200000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt']);
+const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,enc.encode(text))),out=new Uint8Array(28+ct.length);out.set(salt,0);out.set(iv,16);out.set(ct,28);let s='';out.forEach(b=>s+=String.fromCharCode(b));return btoa(s)}
+$('f-send').onclick=async()=>{const msg=$('f-msg');msg.style.color='var(--bad)';const {ops,errs}=parseLines(ta.value);
+if(!ops.length){msg.textContent='Add at least one change first, for example: BUY HUBC 100 @ 188.5';return}
+if(errs.length){msg.textContent='I could not read this line: "'+errs[0]+'". Use the format BUY SYMBOL SHARES @ PRICE.';return}
+const bad=ops.find(o=>o.op!=='watch_add'&&o.op!=='watch_remove'&&!(o.q>=0&&o.p>0));if(bad){msg.textContent='Check the shares and price for '+bad.t+'.';return}
+const pass=$('f-pass').value;if(pass.length<8){msg.textContent='Enter your passphrase (the HOLDINGS_KEY secret).';return}
+if(!D.repo){msg.textContent='The repository name is missing from settings.json (github_repo).';return}
+if(!window.crypto||!crypto.subtle){msg.textContent='This browser cannot encrypt here. Open the page over https in a current browser.';return}
+try{localStorage[$('f-rem').checked?'setItem':'removeItem']('psx_pass',pass)}catch(e){}
+try{const blob=await encrypt(JSON.stringify({ops,ts:Date.now()}),pass);msg.style.color='var(--ok)';msg.textContent='Encrypted. Opening GitHub: press “Submit new issue” there.';
+window.open(`https://github.com/${D.repo}/issues/new?title=${encodeURIComponent('Portfolio update')}&body=${encodeURIComponent(blob)}`,'_blank','noopener')}catch(e){msg.textContent='Encryption failed: '+e}};
+</script></body></html>

@@ -99,9 +99,24 @@ def run_rules(h, watch, mix, index, announcements, R):
         add("index-drop", "KSE-100", "risk", "watch", "Market falling", f"KSE-100 is down {p(abs(index['change_pct']))} today. Stick to your tranches; do not chase.")
     tickers = {r["ticker"] for r in held}
     for a in announcements or []:
-        if a["ticker"] in tickers and a["category"] in ("Risk notice", "Results", "Dividend / book closure", "Board meeting"):
-            sev = "review" if a["category"] == "Risk notice" else "watch"
-            add(f"ann-{a['ticker']}-{abs(hash(a['title'])) % 10**6}", a["ticker"], "risk", sev, a["category"], a["title"][:220])
+        if a["ticker"] in tickers and a["category"] == "Risk notice":
+            add(f"ann-{a['ticker']}-{abs(hash(a['title'])) % 10**6}", a["ticker"], "risk", "review", "Risk notice", a["title"][:220])
     order = {"review": 0, "trim": 1, "sector": 2, "watch": 3, "opportunity": 4}
     A.sort(key=lambda a: order.get(a["severity"], 9))
     return A
+
+
+EVENT_RANK = {"Risk notice": 0, "Results": 1, "Dividend / book closure": 1, "Material information": 2, "Board meeting": 3, "Other": 9}
+
+
+def build_events(anns, held_tickers, watch_tickers, parse_date):
+    """Announcements sorted by importance, then date. 'key' marks the few worth showing first."""
+    out = []
+    for a in anns or []:
+        scope = "holding" if a["ticker"] in held_tickers else "watchlist" if a["ticker"] in watch_tickers else "market"
+        d = parse_date(a["date"])
+        out.append({**a, "scope": scope, "sort": d.isoformat() if d else "", "key": EVENT_RANK.get(a["category"], 9) <= 2})
+    out.sort(key=lambda e: (0 if e["scope"] == "holding" else 1, EVENT_RANK.get(e["category"], 9), ""), reverse=False)
+    out.sort(key=lambda e: e["sort"], reverse=True)
+    out.sort(key=lambda e: (0 if e["scope"] == "holding" else 1, EVENT_RANK.get(e["category"], 9)))
+    return out

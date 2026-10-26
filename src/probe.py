@@ -4,8 +4,9 @@ H = {"User-Agent": "Mozilla/5.0 (personal PSX dashboard)"}
 B = "https://dps.psx.com.pk"
 GET = ["/market-watch", "/market-summary", "/indices", "/indices/KSE100", "/timeseries/int/KSE100", "/timeseries/eod/KSE100",
        "/timeseries/int/OGDC", "/timeseries/eod/OGDC", "/company/OGDC", "/announcements/companies", "/announcements", "/", "/data/KSE100",
-       "/trading-panel", "/screener"]
-POST = [("/announcements/companies", {"type": "C", "symbol": "", "query": "", "count": 50, "offset": 0, "page": "annc"}),
+       "/trading-panel", "/screener", "/historical", "/graphical-view"]
+POST = [("/historical", {"month": 10, "year": 2026, "symbol": "OGDC"}),
+        ("/announcements/companies", {"type": "C", "symbol": "", "query": "", "count": 50, "offset": 0, "page": "annc"}),
         ("/announcements", {"type": "C", "symbol": "", "query": "", "count": 50, "offset": 0, "page": "annc"})]
 out = []
 def show(label, r):

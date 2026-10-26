@@ -27,7 +27,7 @@ def _num(s):
 
 def market_watch():
     """All listed stocks from the portal's screener table (verified to exist from GitHub's servers).
-    Returns {symbol: {price, change_pct, pe_ttm, yield_ttm}}."""
+    Returns {symbol: {sector, price, change_pct, pe_ttm, yield_ttm}}."""
     soup = BeautifulSoup(_get(BASE + "/screener").text, "html.parser")
     out = {}
     for table in soup.find_all("table"):
@@ -43,7 +43,7 @@ def market_watch():
             if len(tds) < len(heads):
                 continue
             sym = tds[idx["SYMBOL"]].split()[0].upper()
-            out[sym] = {"price": _num(tds[idx["PRICE"]]), "change_pct": _num(tds[idx[chg]]) if chg else None,
+            out[sym] = {"sector": tds[idx["SECTOR"]] if "SECTOR" in idx else "", "price": _num(tds[idx["PRICE"]]), "change_pct": _num(tds[idx[chg]]) if chg else None,
                         "pe_ttm": _num(tds[idx[pe]]) if pe else None, "yield_ttm": _num(tds[idx[dy]]) if dy else None}
     if not out:
         raise RuntimeError("screener table not found")
