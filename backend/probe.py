@@ -4,7 +4,9 @@ H = {"User-Agent": "Mozilla/5.0 (personal PSX dashboard)"}
 B = "https://dps.psx.com.pk"
 GET = ["/market-watch", "/market-summary", "/indices", "/indices/KSE100", "/timeseries/int/KSE100", "/timeseries/eod/KSE100",
        "/timeseries/int/OGDC", "/timeseries/eod/OGDC", "/company/OGDC", "/announcements/companies", "/announcements", "/", "/data/KSE100",
-       "/trading-panel", "/screener", "/historical", "/graphical-view"]
+       "/trading-panel", "/screener", "/historical", "/graphical-view",
+       "/indices/KMI30", "/indices/KMIALLSHR", "/indices/KSE30",
+       "https://www.nccpl.com.pk/market-information/fipi-lipi", "https://www.nccpl.com.pk/"]
 POST = [("/historical", {"month": 10, "year": 2026, "symbol": "OGDC"}),
         ("/announcements/companies", {"type": "C", "symbol": "", "query": "", "count": 50, "offset": 0, "page": "annc"}),
         ("/announcements", {"type": "C", "symbol": "", "query": "", "count": 50, "offset": 0, "page": "annc"})]
@@ -15,7 +17,7 @@ def show(label, r):
     out.append(f"{label} -> {r.status_code} {r.headers.get('content-type','')} len={len(r.text)}\n  start: {t}\n  th: {[re.sub('<.*?>','',h).strip() for h in heads]}\n")
 for p in GET:
     try:
-        show("GET " + p, requests.get(B + p, headers=H, timeout=25))
+        show("GET " + p, requests.get(p if p.startswith("http") else B + p, headers=H, timeout=25))
     except Exception as e:
         out.append(f"GET {p} -> ERROR {e}\n")
 for p, d in POST:

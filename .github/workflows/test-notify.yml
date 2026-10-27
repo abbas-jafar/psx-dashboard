@@ -1,0 +1,21 @@
+name: Test notifications
+# Sends one test message to your phone (ntfy) and email, and tells you in plain words which secret is missing or rejected.
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Send test notifications
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          DASH_URL: ${{ vars.DASH_URL }}
+        run: python backend/notify.py

@@ -23,19 +23,20 @@ jobs:
         env:
           HOLDINGS_CSV: ${{ secrets.HOLDINGS_CSV }}
           HOLDINGS_KEY: ${{ secrets.HOLDINGS_KEY }}
-        run: python src/vault.py load
+        run: python backend/vault.py load
       - name: Apply the encrypted update
         env:
           HOLDINGS_KEY: ${{ secrets.HOLDINGS_KEY }}
           ISSUE_BODY: ${{ github.event.issue.body }}
-        run: python src/trade.py
+        run: python backend/trade.py
       - name: Rebuild dashboard
         if: hashFiles('.changed') != ''
         env:
           HOLDINGS_KEY: ${{ secrets.HOLDINGS_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          python src/vault.py save
-          python src/main.py --no-notify --no-history
+          python backend/vault.py save
+          python backend/main.py --no-notify --no-history
       - name: Save and publish
         if: hashFiles('.changed') != ''
         run: |

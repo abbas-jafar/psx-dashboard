@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>__TITLE__</title>
+<style>
+:root{--bg1:#eef3fb;--bg2:#f8f6f2;--panel:#fff;--fg:#14213d;--mut:#5d6b82;--line:#e3e8f0;--ok:#15803d;--okbg:#dcfce7;--bad:#b91c1c;--badbg:#fee2e2;--warn:#b45309;--warnbg:#fef3c7;--acc:#2563eb;--accbg:#dbeafe;--tgt:#c7d0de;--shadow:0 1px 2px rgba(20,33,61,.06),0 6px 18px rgba(20,33,61,.06)}
+@media(prefers-color-scheme:dark){:root{--bg1:#0b1220;--bg2:#101a2e;--panel:#16213a;--fg:#e8eefc;--mut:#9fb0cc;--line:#26344f;--ok:#4ade80;--okbg:#12361f;--bad:#f87171;--badbg:#3b1717;--warn:#fbbf24;--warnbg:#3a2c0b;--acc:#7aa7ff;--accbg:#18284d;--tgt:#3a4a68;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;color:var(--fg);font:15px/1.5 "Segoe UI",Inter,system-ui,-apple-system,Roboto,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2) 600px) fixed}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 70px}
+.hero{background:linear-gradient(135deg,#0b2447 0%,#19376d 55%,#1f6f8b 100%);color:#fff;border-radius:0 0 22px 22px;padding:22px 22px 18px;margin:0 -16px;box-shadow:0 10px 30px rgba(11,36,71,.35)}
+@media(min-width:1212px){.hero{margin:0;border-radius:0 0 22px 22px}}
+.hero-top{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{display:flex;gap:14px;align-items:center}.logo{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.14);display:grid;place-items:center}
+h1{margin:0;font-size:28px;letter-spacing:.2px;font-weight:700}.tag{margin:2px 0 0;color:#c7d8f5;font-size:13px;letter-spacing:.4px}
+.kse{text-align:right}.kse small{display:block;color:#b8cdf0;font-size:12px;letter-spacing:1px;text-transform:uppercase}.kse b{font-size:26px;font-variant-numeric:tabular-nums}.kse span{margin-left:8px;font-weight:700;padding:2px 9px;border-radius:99px;font-size:13px}
+.up{background:#16a34a;color:#fff}.dn{background:#dc2626;color:#fff}
+.upd{color:#b8cdf0;font-size:12px;margin-top:2px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 14px}
+.btn{border:0;border-radius:11px;padding:10px 18px;font:600 14px/1 "Segoe UI",system-ui,sans-serif;color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center;box-shadow:0 4px 12px rgba(0,0,0,.25);transition:transform .12s}
+.btn:hover{transform:translateY(-1px)}.b1{background:linear-gradient(135deg,#2563eb,#1d4ed8)}.b2{background:linear-gradient(135deg,#16a34a,#15803d)}.b3{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.feeds{display:flex;flex-wrap:wrap;gap:8px}.feed{font-size:12.5px;font-weight:600;border-radius:99px;padding:4px 12px;display:inline-flex;gap:6px;align-items:center;cursor:help}
+.feed.ok{background:rgba(34,197,94,.18);color:#bbf7d0;border:1px solid rgba(34,197,94,.45)}.feed.bad{background:rgba(239,68,68,.2);color:#fecaca;border:1px solid rgba(239,68,68,.55)}
+.nav{position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow-x:auto;padding:10px 0;margin:0 -4px;backdrop-filter:blur(8px)}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:5px 14px;font-size:13px;font-weight:600}
+.nav a:hover{border-color:var(--acc);color:var(--acc)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:6px 0 4px}
+.tile{border-radius:16px;padding:16px 18px;color:#fff;box-shadow:var(--shadow)}
+.t1{background:linear-gradient(135deg,#334155,#1e293b)}.t1.g{background:linear-gradient(135deg,#16a34a,#166534)}.t1.r{background:linear-gradient(135deg,#dc2626,#991b1b)}
+.t3{background:linear-gradient(135deg,#2563eb,#1e40af)}.t4{background:linear-gradient(135deg,#d97706,#92400e)}
+.tile .l{font-size:12px;letter-spacing:.8px;text-transform:uppercase;opacity:.85}.tile .b{font-size:32px;font-weight:700;line-height:1.15;margin:4px 0;font-variant-numeric:tabular-nums}.tile .s{font-size:13px;opacity:.9}
+h2{font-size:22px;margin:38px 0 4px;font-weight:700;display:flex;align-items:center;gap:10px}h2::before{content:"";width:6px;height:22px;border-radius:3px;background:linear-gradient(var(--acc),#14b8a6)}
+.note{color:var(--mut);font-size:13.5px;margin:0 0 12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);min-width:0}
+.card h3{margin:0 0 2px;font-size:17px}.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:16px}.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
+.item{display:flex;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);border-left-width:5px;margin:8px 0;align-items:flex-start;background:var(--panel)}
+.item .tk{font-weight:800;min-width:62px;font-size:15px}.item .tx{flex:1;min-width:0}.item .tx b{display:block}.item .tx span{color:var(--mut);font-size:13.5px}
+.s-review{border-left-color:#dc2626}.s-trim,.s-sector{border-left-color:#d97706}.s-watch{border-left-color:#2563eb}.s-opportunity{border-left-color:#16a34a}.s-info{border-left-color:#94a3b8}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
+.p-review{background:var(--badbg);color:var(--bad)}.p-trim,.p-sector{background:var(--warnbg);color:var(--warn)}.p-watch{background:var(--accbg);color:var(--acc)}.p-opportunity,.p-good{background:var(--okbg);color:var(--ok)}.p-info,.p-grey{background:var(--line);color:var(--mut)}
+.more{margin-top:8px;background:var(--accbg);color:var(--acc);border:0;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:13.5px}.more:hover{filter:brightness(.96)}
+.hide{display:none}.empty{color:var(--mut);font-size:14px;padding:6px 0}
+svg{width:100%;height:auto;display:block}svg text{fill:var(--fg);font-family:"Segoe UI",system-ui,sans-serif}svg .m{fill:var(--mut)}
+.tblw{overflow-x:auto;border-radius:16px;border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;font-variant-numeric:tabular-nums}
+thead th{background:#1b4a78;color:#fff;text-align:left;font-size:12px;letter-spacing:.7px;text-transform:uppercase;padding:11px 12px;white-space:nowrap;position:sticky;top:0}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}tbody tr:nth-child(even){background:rgba(100,130,190,.05)}tbody tr:hover{background:var(--accbg)}
+.n{text-align:right}.tkr{font-weight:800;font-size:16px;letter-spacing:.3px}.sec{display:block;font-size:11.5px;color:var(--mut);font-weight:600}
+.num{display:inline-block;min-width:68px;text-align:center;border-radius:9px;padding:3px 8px;font-weight:800}.gain{background:var(--okbg);color:var(--ok)}.loss{background:var(--badbg);color:var(--bad)}.flat{background:var(--line);color:var(--mut)}
+.bar{display:inline-block;width:92px;height:8px;border-radius:5px;background:var(--line);position:relative;vertical-align:middle}.bar i{position:absolute;top:-3px;width:14px;height:14px;border-radius:50%;border:3px solid #fff;margin-left:-7px;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.rowbtn{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:8px;padding:3px 9px;font-size:12px;font-weight:700;cursor:pointer;margin-left:4px}.rowbtn:hover{border-color:var(--acc);color:var(--acc)}
+.how{margin:0 0 10px;color:var(--mut);font-size:13.5px}.how summary{cursor:pointer;font-weight:700;color:var(--acc)}.how div{padding:6px 0 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.chip{border-radius:10px;background:var(--bg1);border:1px solid var(--line);padding:6px 12px;font-size:13px}.chip b{display:block;font-size:16px}
+.rng{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.rng button{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:99px;padding:5px 13px;font-weight:700;cursor:pointer;font-size:13px}.rng button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+select,input,textarea{font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px}textarea{width:100%;min-height:110px;font-family:Consolas,monospace}
+.kf h3{font-size:17px}.kf ul{margin:6px 0 8px;padding-left:20px}.kf li{margin:4px 0}.src{display:flex;gap:6px;flex-wrap:wrap}.src a{font-size:12.5px;font-weight:700;text-decoration:none;color:var(--acc);background:var(--accbg);border-radius:99px;padding:3px 11px}
+.li{padding:8px 0;border-bottom:1px solid var(--line)}.li:last-child{border:0}.li a{color:var(--fg);text-decoration:none;font-weight:600}.li a:hover{color:var(--acc)}.li small{color:var(--mut)}
+.scrollbox{max-height:430px;overflow:auto;margin-top:6px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;align-items:end}.form label{font-size:12.5px;font-weight:700;color:var(--mut);display:block}.form input,.form select{width:100%}
+.warnbox{background:var(--warnbg);color:var(--warn);border-radius:12px;padding:10px 14px;font-size:13.5px;margin:10px 0}
+.foot{color:var(--mut);font-size:12.5px;margin-top:34px}
+@media(max-width:640px){h1{font-size:22px}.kse{text-align:left}.tile .b{font-size:26px}}
+
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.tag2{font-size:13px;font-weight:700;border-radius:10px;padding:6px 13px;display:inline-flex;gap:7px;align-items:center;cursor:help;border:1px solid}
+.tag2.ok{background:rgba(34,197,94,.2);color:#d1fae5;border-color:rgba(34,197,94,.55)}.tag2.warn{background:rgba(251,191,36,.2);color:#fef3c7;border-color:rgba(251,191,36,.6)}
+.tag2.bad{background:rgba(239,68,68,.22);color:#fee2e2;border-color:rgba(239,68,68,.6)}.tag2.off{background:rgba(148,163,184,.2);color:#e2e8f0;border-color:rgba(148,163,184,.5)}
+.tag2 i{width:9px;height:9px;border-radius:50%;background:currentColor;display:inline-block}
+.t5{background:linear-gradient(135deg,#7c3aed,#5b21b6)}
+.tabs{display:flex;gap:8px;margin:10px 0 14px;flex-wrap:wrap}.tab{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:12px;padding:10px 20px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:var(--shadow)}
+.tab.on{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border-color:#1d4ed8}.tab small{opacity:.8;font-weight:700;margin-left:6px}
+.sigchip{border:0;border-radius:99px;padding:4px 12px;font-size:12px;font-weight:800;letter-spacing:.3px;cursor:pointer;white-space:nowrap}
+.sg-sb{background:#166534;color:#fff}.sg-ac{background:var(--okbg);color:var(--ok)}.sg-ho{background:var(--line);color:var(--mut)}.sg-tr{background:var(--warnbg);color:var(--warn)}.sg-rv{background:#b91c1c;color:#fff}.sg-av{background:var(--badbg);color:var(--bad)}
+.why td{background:var(--bg1)!important;padding:14px 16px!important;white-space:normal}.why-grid{position:sticky;left:0;width:min(1100px,calc(100vw - 80px));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;font-size:13.5px}
+.why-grid ul{margin:4px 0 0;padding-left:18px}.why-grid li{margin:2px 0}.why-grid h4{margin:0 0 4px;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--mut)}
+.pts{font-weight:800;font-size:12px;border-radius:6px;padding:0 6px;margin-right:4px}.pts.p{background:var(--okbg);color:var(--ok)}.pts.m{background:var(--badbg);color:var(--bad)}.pts.z{background:var(--line);color:var(--mut)}
+.ev{display:inline-block;font-size:11.5px;background:var(--accbg);color:var(--acc);border-radius:6px;padding:1px 7px;margin:2px 3px 0 0;font-weight:700}
+.opp{border:1px solid var(--line);border-left:5px solid #16a34a;border-radius:12px;padding:10px 12px;margin:8px 0;background:var(--panel)}.opp p{margin:6px 0 4px;font-size:14px}
+.opp .oh{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.conf{font-size:12px;color:var(--mut);font-weight:700}.rk{font-size:13px;color:var(--mut)}.rk span{display:inline-block;background:var(--warnbg);color:var(--warn);border-radius:8px;padding:1px 8px;margin:2px 4px 0 0;font-weight:600}
+.trg{display:inline-block;font-size:11.5px;font-weight:800;border-radius:7px;padding:2px 7px;margin:1px 3px 1px 0;background:var(--line);color:var(--mut)}.trg.ok{background:var(--okbg);color:var(--ok)}
+.mkt{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}.mkt .chip b{font-size:17px}
+.stance{display:inline-block;border-radius:99px;padding:2px 11px;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.5px}.stance.risk-on{background:var(--okbg);color:var(--ok)}.stance.risk-off{background:var(--badbg);color:var(--bad)}.stance.neutral,.stance.mixed{background:var(--warnbg);color:var(--warn)}
+
+.flagbox{grid-column:1/-1;border:1px solid var(--line);border-left:5px solid var(--warn);border-radius:10px;padding:8px 12px;background:var(--panel)}.flagbox.good{border-left-color:var(--ok)}.flagbox.weak{border-left-color:var(--bad)}
+.flagbox ul{margin:4px 0 0;padding-left:0;list-style:none}.flagbox li{margin:2px 0}.flagbox li.warn{color:var(--warn);font-weight:700}.flagbox li.note{color:var(--mut)}
+.flag{font-size:12.5px;color:var(--warn);font-weight:700;margin:3px 0}
+.srcs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}.srcchip{font-size:13px;font-weight:700;text-decoration:none;border-radius:10px;padding:5px 12px;border:1px solid var(--line);background:var(--panel);color:var(--fg)}
+.srcchip.ok{border-color:rgba(34,197,94,.6)}.srcchip.bad{border-color:rgba(239,68,68,.55);color:var(--mut)}.srcchip small{color:var(--mut);font-weight:600;margin-left:4px}
+.lock{opacity:.6;cursor:help}.reality{background:var(--warnbg);border-radius:10px;padding:8px 10px;margin:6px 0}.need{color:var(--acc);font-weight:600}
+.unlock{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px;font-size:13.5px;color:var(--mut)}.unlock input{width:200px}
+.qbadge{cursor:pointer}.healthlist{margin:6px 0;padding-left:18px}.healthlist li{margin:8px 0}
+</style></head><body><div class="wrap">
+<header class="hero">
+ <div class="hero-top">
+  <div class="brand"><div class="logo"><svg width="30" height="30" viewBox="0 0 30 30"><rect x="3" y="15" width="5" height="12" rx="1.5" fill="#7dd3fc"/><rect x="12" y="9" width="5" height="18" rx="1.5" fill="#34d399"/><rect x="21" y="3" width="5" height="24" rx="1.5" fill="#fbbf24"/></svg></div>
+  <div><h1 id="title"></h1><p class="tag">SHARIAH-COMPLIANT &nbsp;·&nbsp; DIVIDEND-FOCUSED &nbsp;·&nbsp; LONG-TERM</p></div></div>
+  <div class="kse"><small>KSE-100</small><b id="kse-level">—</b><span id="kse-chg"></span><div class="upd" id="gen"></div></div>
+ </div>
+ <div class="tags" id="tags"></div>
+ <div class="actions"><a class="btn b1" href="#" onclick="location.reload();return false">⟳ Reload page</a><a class="btn b2" id="runlink" href="#" target="_blank" rel="noopener">⚡ Refresh data now</a><a class="btn b3" href="#update">＋ Update my portfolio</a></div>
+ <div class="feeds" id="feeds"></div>
+</header>
+<nav class="nav"><a href="#alerts">Attention &amp; AI</a><a href="#portfolio">Holdings &amp; Watchlist</a><a href="#update">Update portfolio</a><a href="#market">Market</a><a href="#news">Official news</a><a href="#charts">Charts</a><a href="#history">Price history</a><a href="#health">Data health</a></nav>
+<div class="tiles" id="tiles"></div>
+
+<h2 id="alerts">Needs attention and AI opportunities</h2><p class="note"><b style="color:var(--bad)">Critical</b>: risk notices, broken positions, dead data feeds. <b style="color:var(--warn)">Important</b>: position or sector limits, trim signals. <b style="color:var(--acc)">Heads-up</b>: new filings, AI warnings, lowered signals. These are prompts to check, not trade orders. Tap “Show all” for the full list.</p>
+<div class="grid2"><div class="card"><h3>⚠ Needs your attention <span id="a-count" class="pill p-trim"></span></h3><div id="a-list"></div></div>
+<div class="card"><h3>✦ AI Opportunities <span id="o-count" class="pill p-good"></span></h3><p class="note" id="ai-note" style="margin:2px 0 6px"></p><div id="o-list"></div></div></div>
+<div id="track" class="note" style="margin-top:10px"></div>
+
+<h2 id="portfolio">Holdings and watchlist</h2>
+<div class="tabs"><button class="tab on" data-tab="hold">My Holdings <small id="tab-h-n"></small></button><button class="tab" data-tab="watch">Watchlist <small id="tab-w-n"></small></button></div>
+<div id="pane-hold"><div class="tiles" id="h-tiles"></div>
+<details class="how"><summary>How to read this table</summary><div><b>Weight</b> = share of your portfolio. <b>Today</b> = price change today. <b>Gain/Loss</b> = against your average buying price. <b>52-week position</b>: red dot means near the yearly low, amber near the yearly high. <b>Yield</b> = yearly dividend ÷ price (green is 4% or more). <b>P/E</b> = price ÷ yearly earnings (lower is cheaper). <b>Payout</b> = share of profit paid as dividend. <b>Signal</b> combines your rules, the price trend and (when switched on) the AI analyst. Tap a signal to see exactly why.</div></details>
+<div class="unlock"><span>🔒 Buy prices and share counts are hidden on this public page.</span><input id="u-pass" type="password" placeholder="Your passphrase" autocomplete="off"><button class="btn b2" id="u-btn" type="button" style="padding:7px 14px">Unlock my numbers</button><span id="u-msg"></span></div>
+<div class="tblw" id="hold"></div></div>
+<div id="pane-watch" class="hide"><div class="tiles" id="w-tiles"></div>
+<p class="note">Stocks you are studying. Set your own triggers (entry price, target yield, target P/E): when all of them are met the stock appears under AI Opportunities. Yield and P/E come from PSX when you haven’t typed your own figures.</p>
+<div class="tblw" id="watch"></div>
+<div class="card" style="margin-top:14px"><h3>Add or remove a stock</h3><p class="note">Type a PSX symbol to add it (sector, price, ranges and yield are filled in automatically). To remove one, press <b>Remove</b> on its row. Then press “Encrypt and open on GitHub” in the update box just below.</p>
+<div class="form"><div><label>PSX symbol</label><input id="wa-sym" list="symlist" placeholder="e.g. PPL" autocomplete="off"></div><div><button class="btn b1" id="wa-add" type="button">＋ Add to watchlist</button></div></div></div>
+<div class="card" style="margin-top:14px"><h3>Set watchlist triggers</h3><p class="note">Leave a box empty to keep it unchanged; type 0 to clear it. This adds a line to the update list below.</p>
+<div class="form"><div><label>Stock</label><input id="w-sym" list="symlist" placeholder="e.g. LUCK" autocomplete="off"></div><div><label>Buy at or below (Rs)</label><input id="w-entry" inputmode="decimal" placeholder="e.g. 360"></div><div><label>Yield at least (%)</label><input id="w-yield" inputmode="decimal" placeholder="e.g. 5"></div><div><label>P/E at most</label><input id="w-pe" inputmode="decimal" placeholder="e.g. 8"></div><div><button class="btn b1" id="w-add" type="button">Add to update list</button></div></div></div></div>
+
+<h2 id="update" style="margin-top:22px">Update my portfolio <span class="pill p-watch qbadge hide" id="q-badge"></span></h2>
+<div class="card"><p class="note">Bought or sold shares? Added a stock to study? List the changes below. Everything else (sector, prices, ranges, yield) is filled in automatically. Your details are <b>encrypted on this device</b> before they leave it, then GitHub applies the change and rebuilds this page in about a minute.</p>
+<div class="form"><div><label>What happened</label><select id="f-act"><option value="BUY">I bought</option><option value="SELL">I sold</option><option value="SET">Correct my position</option><option value="WATCH ADD">Add to watchlist</option><option value="WATCH REMOVE">Remove from watchlist</option></select></div>
+<div><label>Stock symbol</label><input id="f-sym" list="symlist" placeholder="e.g. HUBC" autocomplete="off"></div><div><label>Shares</label><input id="f-qty" inputmode="decimal" placeholder="e.g. 100"></div><div><label>Price per share (Rs)</label><input id="f-px" inputmode="decimal" placeholder="e.g. 188.50"></div><div><button class="btn b1" id="f-add" type="button">Add to list</button></div></div>
+<datalist id="symlist"></datalist>
+<p class="note" style="margin-top:12px">Changes to send (one per line, you can edit). Examples: <code>WATCH SET LUCK entry=360 yield=5 pe=8</code> · <code>BUY HUBC 100 @ 188.5</code> · <code>SELL OGDC 20 @ 301</code> · <code>WATCH ADD LUCK MTL PSO</code> · <code>WATCH REMOVE SNGP</code></p>
+<textarea id="f-text" placeholder="BUY HUBC 100 @ 188.5"></textarea>
+<div class="form" style="margin-top:10px"><div><label>Passphrase (same as your HOLDINGS_KEY secret)</label><input id="f-pass" type="password" autocomplete="off"></div><div><label>&nbsp;</label><label style="font-weight:600"><input type="checkbox" id="f-rem" style="width:auto"> Remember on this device</label></div><div><button class="btn b2" id="f-send" type="button">🔒 Encrypt and open on GitHub</button></div></div>
+<p class="note" id="f-msg"></p>
+<div class="warnbox">On the GitHub page that opens, just press the green <b>“Submit new issue”</b> button. You must be signed in to GitHub. Only the repository owner’s update is applied.</div></div>
+
+<h2 id="market">Market context</h2><p class="note">Index moves, foreign/local investor flows and the AI analyst’s read of the market.</p>
+<div class="card"><div class="mkt" id="mkt"></div><div id="mkt-ai"></div></div>
+
+<h2 id="news">Official news and findings</h2><p class="note">Official sources only: PSX filings, State Bank, SECP, Finance Ministry and regulators. No newspaper or TV headlines. If several sources carry the same story, only the most authoritative one is kept. Every item links to its source.</p>
+<div class="srcs" id="srcs"></div>
+<div class="card"><h3>Your stocks: key events</h3><p class="note">Results, dividends, risk notices and other material filings for the companies you hold.</p><div id="ev-key"></div><button class="more" id="ev-btn"></button><div class="scrollbox hide" id="ev-all"></div></div>
+<h3 style="margin:22px 0 4px">Key findings</h3><p class="note" id="kf-note">One finding per distinct story: what happened, what it means for dividend stocks, and a reality check on what is not yet known.</p>
+<div class="grid2" id="kf"></div><button class="more hide" id="kf-btn"></button>
+<div class="card" style="margin-top:16px"><h3>Latest official releases</h3><div id="hl"></div><button class="more hide" id="hl-btn"></button></div>
+
+<h2 id="charts">Charts</h2>
+<div class="grid2"><div class="card"><h3>Sector mix against target</h3><p class="note">Bars show today’s share of your portfolio; the dark tick is your target.</p><div id="c-sector"></div></div>
+<div class="card"><h3>Gain or loss since you bought</h3><p class="note">Percent against your average buying price.</p><div id="c-pl"></div></div></div>
+<div class="card" style="margin-top:16px"><h3>Dividend yield by stock</h3><p class="note">Yield is the yearly dividend as a share of today’s price, so higher means more income. <b style="color:var(--ok)">Green</b> means yield of 4% or more and P/E of 10 or less (good income at a fair price). <b style="color:var(--warn)">Amber</b> means high yield but pricey. Grey is under 4%.</p><div id="c-yield"></div></div>
+
+<h2 id="history">Price history explorer</h2><p class="note">Pick a stock and a period to see how its price moved over 1 month up to 10 years.</p>
+<div class="card"><div class="form" style="grid-template-columns:minmax(200px,320px) 1fr"><div><label>Stock</label><select id="h-sym"></select></div><div><label>Period</label><div class="rng" id="h-rng"></div></div></div>
+<div class="chips" id="h-stats"></div><div id="h-chart"></div><p class="note" id="h-note"></p><p class="note" id="h-src"></p></div>
+
+<h2 id="health">Data health and what is still missing</h2><p class="note">Anything red or grey above is listed here with exactly what is needed to fix it.</p>
+<div class="card"><ul class="healthlist" id="health-list"></ul></div>
+
+<p class="foot">Prices come from the PSX data portal and may be delayed. Dividend and earnings figures are the latest available and can be out of date. Signals are rule-based decision support with an optional AI explanation layer. They are <b>not</b> price forecasts, not tested for accuracy, and not investment advice: check the latest filings yourself before you trade.</p>
+</div>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D=JSON.parse(document.getElementById('data').textContent),$=id=>document.getElementById(id);
+const NS='http://www.w3.org/2000/svg',f1=v=>v==null||isNaN(v)?'—':(Math.round(v*10)/10).toFixed(1),pct=v=>v==null||isNaN(v)?'—':(v>=0?'+':'−')+f1(Math.abs(v))+'%';
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rs=v=>'Rs '+Math.round(v).toLocaleString('en-US'),tc=s=>String(s).replace(/\b[a-z]/g,c=>c.toUpperCase());
+const clip=(s,n)=>s.length>n?s.slice(0,n-1)+'…':s;
+$('title').textContent=D.title;$('gen').textContent='Updated '+D.generated;
+const rl=D.repo?`https://github.com/${D.repo}/actions/workflows/refresh.yml`:'#';$('runlink').href=rl;
+const I=D.index;if(I){$('kse-level').textContent=I.level.toLocaleString('en-US',{maximumFractionDigits:0});if(I.change_pct!=null){$('kse-chg').textContent=pct(I.change_pct);$('kse-chg').className=I.change_pct>=0?'up':'dn'}}
+const evName=e=>e.replace(/^[A-Z0-9]+\./,'').replace(/^O(\d+)$/,'Release $1').replace(/^A(\d+)$/,'Filing $1').replace(/_/g,' ');
+const refChip=id=>{const q=(D.refs||{})[id];return q&&q.url?`<a class="ev" href="${esc(q.url)}" target="_blank" rel="noopener" title="${esc(q.label)}">${esc(evName(id))} ↗</a>`:`<span class="ev" title="${esc((q&&q.label)||'')}">${esc(evName(id))}</span>`};
+const stOf=n=>D.status.find(s=>s.name===n),ago=iso=>{if(!iso)return '';const m=Math.round((Date.now()-new Date(iso))/6e4);return m<2?'just now':m<90?m+' min ago':m<2880?Math.round(m/60)+' h ago':Math.round(m/1440)+' days ago'};
+(function(){const t=[],P=stOf('Prices'),A=stOf('Announcements'),F=stOf('FIPI/LIPI'),a=D.ai||{};
+if(P&&P.ok)t.push(D.verified?['ok','Prices Verified','PSX data portal, '+P.note+'. Checked: at least 95% of your stocks priced and no move above 10% in a day.']:['warn','Prices Partial',P.note+'. Fewer than 95% of stocks priced or an unusually large move, so treat with care.']);else t.push(['bad','Prices Offline',(P&&P.note)||'no live source']);
+t.push(A&&A.ok?['ok','PSX Filings Live',A.note+'. Read from each company’s PSX page (the public face of PUCARS filings).']:['bad','Filings Unavailable',(A&&A.note)||'not retrieved']);
+if(a.status==='fresh'||a.status==='cached')t.push(['ok','AI Models Updated · '+ago(a.generated),(a.note||'')+' ('+(a.model||'')+')']);else if(a.status==='stale')t.push(['warn','AI Stale · '+ago(a.generated),a.note||'']);else if(a.status==='error')t.push(['bad','AI Error',a.note||'']);else t.push(['off','AI Off',a.note||'Add the ANTHROPIC_API_KEY secret to switch on']);
+t.push(F&&F.ok?['ok','Flows Live',F.note]:['off','Flows N/A',(F&&F.note)||'FIPI/LIPI not configured']);
+const O=stOf('Official sources'),nf=D.notify||{},np=nf.phone&&nf.phone.configured,ne=nf.email&&nf.email.configured;
+t.push(O&&O.ok?['ok','Official News Live',O.note]:['warn','Official News Thin',(O&&O.note)||'no official release found']);
+t.push(np&&ne?['ok','Alerts: phone ✔ email ✔','Both channels have secrets. Use Actions → Test notifications to confirm delivery.']:np||ne?['warn','Alerts: '+(np?'phone ✔ email ✖':'phone ✖ email ✔'),(np?nf.email.note:nf.phone.note)+'. Run Actions → Test notifications.']:['bad','Alerts: not set up','No NTFY_TOPIC or email secrets found. Run Actions → Test notifications for exact steps.']);
+$('tags').innerHTML=t.map(x=>`<span class="tag2 ${x[0]}" title="${esc(x[2])}"><i></i>${esc(x[1])}</span>`).join('')})();
+$('feeds').innerHTML=D.status.map(s=>`<span class="feed ${s.ok?'ok':'bad'}" title="${esc(s.note)}">${s.ok?'✔':'✖'} ${esc(s.name)}${s.ok?'':' · check'}</span>`).join('');
+const T=D.totals,held=D.holdings.filter(r=>D.show_rs?r.qty>0:r.held),plans=D.holdings.filter(r=>!r.held&&!(r.qty>0));
+const risk=D.alerts.filter(a=>a.kind!=='opportunity'),opp=D.alerts.filter(a=>a.kind==='opportunity');
+const attn=risk.filter(a=>a.kind==='risk');
+const aiOpps=D.holdings.concat(D.watchlist).filter((r,i,arr)=>r.sig&&['Strong Buy','Accumulate'].includes(r.sig.signal)&&arr.findIndex(x=>x.ticker===r.ticker)===i).sort((a,b)=>(b.sig.signal==='Strong Buy')-(a.sig.signal==='Strong Buy')||b.sig.score-a.sig.score);
+function tile(cls,l,b,s){return `<div class="tile ${cls}"><div class="l">${l}</div><div class="b">${b}</div><div class="s">${s||''}</div></div>`}
+const dc=T.day_change_pct,pl=T.pl_pct;
+$('tiles').innerHTML=[tile('t1 '+(dc>=0?'g':'r'),'Portfolio today',pct(dc),D.show_rs?(T.day_change>=0?'+':'−')+rs(Math.abs(T.day_change)):'change since yesterday'),
+ tile('t1 '+(pl>=0?'g':'r'),'Gain or loss on cost',pct(pl),D.show_rs?(T.pl>=0?'+':'−')+rs(Math.abs(T.pl)):T.n_held+' holdings'),
+ tile('t3','KSE-100',I?I.level.toLocaleString('en-US',{maximumFractionDigits:0}):'—',I&&I.change_pct!=null?pct(I.change_pct)+' today':'not retrieved'),
+ tile('t4','Needs attention',attn.length,aiOpps.length+' AI opportunit'+(aiOpps.length===1?'y':'ies'))].join('');
+// ---- alerts
+const sevLabel={review:'Critical',trim:'Important',sector:'Important',watch:'Heads-up',opportunity:'Opportunity',info:'FYI'};
+const alertHtml=a=>`<div class="item s-${a.severity}"><div class="tk">${esc(a.ticker)}</div><div class="tx"><b>${esc(a.rule)}</b><span>${esc(a.detail)}</span>${a.url?` <a class="ev" href="${esc(a.url)}" target="_blank" rel="noopener">Open filing ↗</a>`:''}</div><span class="pill p-${a.severity}">${sevLabel[a.severity]||a.severity}</span></div>`;
+function expandable(el,btn,items,n,render,label){let open=false;const draw=()=>{el.innerHTML=(open?items:items.slice(0,n)).map(render).join('')||'<p class="empty">Nothing right now.</p>';if(items.length>n){btn.classList.remove('hide');btn.textContent=open?'Show fewer':`Show all ${items.length} ${label}`}else btn.classList.add('hide')};btn.onclick=()=>{open=!open;draw()};draw()}
+function mkBtn(parent){const b=document.createElement('button');b.className='more';parent.appendChild(b);return b}
+const SIGC={'Strong Buy':'sb','Accumulate':'ac','Hold':'ho','Trim/Take Profit':'tr','Review/Exit':'rv','Avoid':'av'};
+const sigTxt=r=>!r.sig?'—':(r.sig.signal==='Hold'&&!r.sig.held)?'Wait':r.sig.signal;
+const chip=(r,btn)=>{if(!r.sig)return '—';const a=r.sig.ai&&!r.sig.ai.stale?r.sig.ai:null,m=a?(a.view==='upgrade'?' ↑':a.view==='downgrade'?' ↓':' ✦'):'';return `<${btn?'button':'span'} class="sigchip sg-${SIGC[r.sig.signal]||'ho'}" ${btn?`data-why="${esc(r.ticker)}" title="Tap to see why"`:''}>${esc(sigTxt(r))}${m}${(r.sig.caveats||[]).some(c=>c.sev==='warn')?' ⚑':''}</${btn?'button':'span'}>`};
+const why=r=>r.sig.ai&&!r.sig.ai.stale&&r.sig.ai.rationale?r.sig.ai.rationale:r.sig.summary.replace(/^[A-Z0-9]+: /,'');
+const qpill=r=>`<span class="pill ${r.sig.quality==='Good'?'p-good':r.sig.quality==='Weak'?'p-review':'p-trim'}" title="How complete the data behind this signal is">${esc(r.sig.quality)} data</span>`;
+const oppHtml=r=>{const a=r.sig.ai&&!r.sig.ai.stale?r.sig.ai:null,w=(r.sig.caveats||[]).filter(c=>c.sev==='warn');return `<div class="opp"><div class="oh"><span class="tkr">${esc(r.ticker)}</span>${chip(r)}<span class="pill p-grey">${r.sig.held?'Held':'Watchlist'}</span>${qpill(r)}<span class="conf">${esc(r.sig.confidence)} confidence</span></div><p>${esc(why(r))}</p>${w.map(c=>`<div class="flag">⚑ ${esc(c.txt)}</div>`).join('')}${a&&a.risks.length?`<div class="rk">Watch out: ${a.risks.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:''}${r.sig.triggers.length?`<div>${r.sig.triggers.map(x=>`<span class="trg ${x.hit?'ok':''}">${x.hit?'✓':'✗'} ${esc(x.label)}</span>`).join('')}</div>`:''}<div style="margin-top:4px">${a?a.evidence.slice(0,4).map(refChip).join(''):''}<a class="ev" href="https://dps.psx.com.pk/company/${esc(r.ticker)}" target="_blank" rel="noopener">PSX page ↗</a></div></div>`};
+const aiS=D.ai||{};$('ai-note').textContent=aiS.status==='fresh'||aiS.status==='cached'?'Rule-based signals checked by an AI analyst against recent filings and headlines. '+ (aiS.generated?'Updated '+ago(aiS.generated)+'.':''):(aiS.note||'Rule-based signals only.');
+$('a-count').textContent=attn.length;$('o-count').textContent=aiOpps.length;
+const allAttn=attn.concat(risk.filter(a=>a.kind==='info'));
+expandable($('a-list'),mkBtn($('a-list').parentNode),allAttn,4,alertHtml,'alerts');
+expandable($('o-list'),mkBtn($('o-list').parentNode),aiOpps,3,oppHtml,'opportunities');
+(function(){const tr=D.track_record||{},k=Object.keys(tr);$('track').innerHTML=k.length?'<b>Track record</b> (signals at least 20 days old, price change since): '+k.map(x=>`${esc(x)}: ${tr[x].n} signals, average ${pct(tr[x].avg_return_pct)}, ${tr[x].hit_pct}% moved the expected way`).join(' · ')+'. Small samples prove little.':'<b>Track record</b>: every signal is now logged daily; results appear here after 20 days. Signals have not been back-tested.'})();
+(function(){const ix=D.indices||[],fl=D.flows,c=(l,v,ch)=>`<div class="chip">${l}<b>${v}</b>${ch==null?'':`<span style="font-weight:800;color:var(${ch>=0?'--ok':'--bad'})">${pct(ch)}</span>`}</div>`;
+let h=ix.map(i=>c(esc(i.name),i.level.toLocaleString('en-US',{maximumFractionDigits:0}),i.change_pct)).join('');
+if(fl){const m=v=>v==null?'—':(v>=0?'+':'−')+Math.abs(v).toLocaleString('en-US',{maximumFractionDigits:1});h+=c('Foreign investors (FIPI) net',m(fl.fipi_net))+c('Local investors (LIPI) net',m(fl.lipi_net))}
+$('mkt').innerHTML=h||'<p class="empty">Index and flow data not retrieved on the last run.</p>';
+const mv=aiS.market;$('mkt-ai').innerHTML=mv?`<p style="margin:6px 0 0"><span class="stance ${esc(mv.stance)}">${esc(mv.stance)}</span> ${esc(mv.summary)}</p>`:''})();
+// ---- charts
+function svg(w,h){const s=document.createElementNS(NS,'svg');s.setAttribute('viewBox',`0 0 ${w} ${h}`);return s}
+function el(p,t,a,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;p.appendChild(e);return e}
+const PAL=['#2563eb','#0ea5e9','#14b8a6','#f59e0b','#8b5cf6','#ec4899','#ef4444','#64748b'];
+(()=>{const m=D.sector_mix,W=560,rh=52,H=m.length*rh+8,L=118,mx=Math.max(30,...m.map(r=>Math.max(r.current_pct,r.target_pct)))*1.08,x=v=>L+v/mx*(W-L-70),s=svg(W,H);
+m.forEach((r,i)=>{const y=i*rh+6,c=PAL[i%PAL.length],d=r.current_pct-r.target_pct;
+el(s,'text',{x:L-12,y:y+19,'text-anchor':'end','font-size':14,'font-weight':700},tc(r.sector));
+el(s,'rect',{x:L,y:y+2,width:W-L-70,height:22,rx:6,fill:'var(--line)',opacity:.55});
+if(r.current_pct>0)el(s,'rect',{x:L,y:y+2,width:Math.max(4,x(r.current_pct)-L),height:22,rx:6,fill:c});
+el(s,'line',{x1:x(r.target_pct),x2:x(r.target_pct),y1:y-2,y2:y+28,stroke:'var(--fg)','stroke-width':2.5});
+el(s,'text',{x:W-62,y:y+19,'font-size':14,'font-weight':800},f1(r.current_pct)+'%');
+el(s,'text',{x:L,y:y+42,'font-size':12,class:'m'},`Target ${f1(r.target_pct)}% · `);
+el(s,'text',{x:L+78,y:y+42,'font-size':12,'font-weight':700,fill:Math.abs(d)<=3?'var(--ok)':d>0?'var(--warn)':'var(--acc)'},Math.abs(d)<0.05?'on target':(d>=0?'+':'−')+f1(Math.abs(d))+' pts '+(d>=0?'over':'under'))});
+$('c-sector').appendChild(s)})();
+(()=>{const rows=held.filter(r=>r.pl_pct!=null).sort((a,b)=>a.pl_pct-b.pl_pct);if(!rows.length){$('c-pl').innerHTML='<p class="empty">No holdings yet.</p>';return}
+const W=560,rh=30,H=rows.length*rh+10,L=78,mx=Math.max(10,...rows.map(r=>Math.abs(r.pl_pct))),zero=L+(W-L-20)*0.5,k=(W-L-20)*0.5*0.72/mx,s=svg(W,H);
+el(s,'line',{x1:zero,x2:zero,y1:0,y2:H,stroke:'var(--line)','stroke-width':2});
+rows.forEach((r,i)=>{const y=i*rh+5,w=Math.abs(r.pl_pct)*k,pos=r.pl_pct>=0;el(s,'text',{x:L-10,y:y+17,'text-anchor':'end','font-size':14,'font-weight':800},r.ticker);
+el(s,'rect',{x:pos?zero:zero-w,y:y+2,width:Math.max(3,w),height:20,rx:5,fill:pos?'#16a34a':'#dc2626'});
+el(s,'text',{x:pos?zero+w+7:zero-w-7,y:y+18,'text-anchor':pos?'start':'end','font-size':14,'font-weight':800,fill:pos?'var(--ok)':'var(--bad)'},pct(r.pl_pct))});$('c-pl').appendChild(s)})();
+(()=>{const rows=held.concat(D.watchlist).filter(r=>r.yield_pct!=null&&r.yield_pct>0).sort((a,b)=>b.yield_pct-a.yield_pct);if(!rows.length){$('c-yield').innerHTML='<p class="empty">No dividend data yet.</p>';return}
+const W=900,rh=30,H=rows.length*rh+30,L=84,mx=Math.max(6,...rows.map(r=>r.yield_pct))*1.05,x=v=>L+v/mx*(W-L-190),s=svg(W,H);
+el(s,'line',{x1:x(4),x2:x(4),y1:12,y2:H-6,stroke:'var(--ok)','stroke-dasharray':'5 4','stroke-width':2});el(s,'text',{x:x(4)+5,y:10,'font-size':12,'font-weight':700,fill:'var(--ok)'},'4% goal');
+rows.forEach((r,i)=>{const y=i*rh+18,good=r.yield_pct>=4&&r.pe!=null&&r.pe<=10,mid=r.yield_pct>=4,c=good?'#16a34a':mid?'#f59e0b':'#94a3b8',w=!(r.held||r.qty>0);
+el(s,'text',{x:L-10,y:y+15,'text-anchor':'end','font-size':14,'font-weight':800},r.ticker+(w?' ◦':''));
+el(s,'rect',{x:L,y:y+2,width:Math.max(3,x(r.yield_pct)-L),height:20,rx:5,fill:c});
+el(s,'text',{x:x(r.yield_pct)+8,y:y+17,'font-size':14,'font-weight':800},f1(r.yield_pct)+'%');
+el(s,'text',{x:W-10,y:y+17,'text-anchor':'end','font-size':13,class:'m'},r.pe!=null?'P/E '+f1(r.pe):'P/E —')});
+$('c-yield').appendChild(s);$('c-yield').insertAdjacentHTML('beforeend','<p class="note">◦ = watchlist stock</p>')})();
+// ---- history
+const RANGES=[['1M',31],['3M',92],['6M',183],['YTD','ytd'],['1Y',365],['2Y',730],['3Y',1095],['5Y',1826],['10Y',3652],['Max',0]];
+let hrange='1Y',hrows=null;
+const all=held.concat(plans,D.watchlist),seen=new Set();
+$('h-sym').innerHTML=[['My holdings',held],['Watchlist',D.watchlist]].map(([g,l])=>`<optgroup label="${g}">${l.filter(r=>!seen.has(r.ticker)&&seen.add(r.ticker)).map(r=>`<option value="${r.ticker}">${r.ticker} · ${esc(tc(r.sector||''))}</option>`).join('')}</optgroup>`).join('');
+$('h-rng').innerHTML=RANGES.map(([n])=>`<button data-r="${n}" class="${n===hrange?'on':''}">${n}</button>`).join('');
+const dparse=n=>new Date(Math.floor(n/10000),Math.floor(n/100)%100-1,n%100);
+async function loadHist(){const sym=$('h-sym').value;if(!sym)return;hrows=null;$('h-note').textContent='Loading…';try{const r=await fetch('history/'+sym+'.json?v='+Date.now());if(!r.ok)throw 0;const j=await r.json();hrows=j.rows||[];$('h-src').textContent=j.src?'Price source: '+j.src+(String(j.src).includes('Yahoo')?' (unofficial fallback)':''):''}catch(e){hrows=null}drawHist()}
+function drawHist(){const box=$('h-chart');box.innerHTML='';$('h-stats').innerHTML='';
+if(!hrows||hrows.length<2){$('h-note').textContent='History for this stock is not available yet. It is collected a little more with every refresh, so check again later (the History light at the top shows the feed status).';return}
+const last=dparse(hrows[hrows.length-1][0]);let from=null;const rg=RANGES.find(r=>r[0]===hrange)[1];
+if(rg==='ytd')from=new Date(last.getFullYear(),0,1);else if(rg)from=new Date(last.getTime()-rg*864e5);
+const rows=hrows.filter(r=>!from||dparse(r[0])>=from);if(rows.length<2){$('h-note').textContent='Not enough data in this period yet.';return}
+const first=dparse(rows[0][0]),W=900,H=330,L=62,B=34,Tp=14,R=16,vals=rows.map(r=>r[1]),mn=Math.min(...vals),mxv=Math.max(...vals),pad=(mxv-mn||1)*0.08,lo=mn-pad,hi=mxv+pad;
+const x=i=>L+i/(rows.length-1)*(W-L-R),y=v=>H-B-(v-lo)/(hi-lo)*(H-B-Tp),s=svg(W,H);
+const up=vals[vals.length-1]>=vals[0],c=up?'#16a34a':'#dc2626';
+const defs=el(s,'defs',{}),g=el(defs,'linearGradient',{id:'hg',x1:0,y1:0,x2:0,y2:1});el(g,'stop',{offset:'0%','stop-color':c,'stop-opacity':.35});el(g,'stop',{offset:'100%','stop-color':c,'stop-opacity':0});
+for(let k=0;k<=4;k++){const v=lo+(hi-lo)*k/4;el(s,'line',{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:'var(--line)'});el(s,'text',{x:L-8,y:y(v)+4,'text-anchor':'end','font-size':12,class:'m'},v>=100?Math.round(v):v.toFixed(1))}
+for(let k=0;k<=5;k++){const i=Math.round((rows.length-1)*k/5),d=dparse(rows[i][0]);el(s,'text',{x:x(i),y:H-10,'text-anchor':k===0?'start':k===5?'end':'middle','font-size':12,class:'m'},d.toLocaleDateString('en-GB',{month:'short',year:'2-digit',day:rows.length<120?'numeric':undefined}))}
+const pts=rows.map((r,i)=>x(i).toFixed(1)+','+y(r[1]).toFixed(1));
+el(s,'polygon',{points:`${L},${H-B} ${pts.join(' ')} ${W-R},${H-B}`,fill:'url(#hg)'});el(s,'polyline',{points:pts.join(' '),fill:'none',stroke:c,'stroke-width':2.4,'stroke-linejoin':'round'});
+const cur=el(s,'circle',{r:5.5,fill:c,stroke:'#fff','stroke-width':2,cx:x(rows.length-1),cy:y(vals[vals.length-1])});
+const tip=el(s,'text',{x:L+8,y:Tp+12,'font-size':14,'font-weight':800},'');
+const ov=el(s,'rect',{x:L,y:0,width:W-L-R,height:H-B,fill:'transparent'});
+ov.addEventListener('pointermove',ev=>{const b=s.getBoundingClientRect(),px=(ev.clientX-b.left)/b.width*W,i=Math.max(0,Math.min(rows.length-1,Math.round((px-L)/(W-L-R)*(rows.length-1))));cur.setAttribute('cx',x(i));cur.setAttribute('cy',y(rows[i][1]));tip.textContent=dparse(rows[i][0]).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})+'  ·  Rs '+rows[i][1].toFixed(2)});
+box.appendChild(s);
+const ch=(vals[vals.length-1]-vals[0])/vals[0]*100,posn=(vals[vals.length-1]-mn)/((mxv-mn)||1)*100;
+$('h-stats').innerHTML=[['Change over period',`<span style="color:${c}">${pct(ch)}</span>`],['Period low','Rs '+mn.toFixed(2)],['Period high','Rs '+mxv.toFixed(2)],['Now sits at',Math.round(posn)+'% of this range'],['Latest close','Rs '+vals[vals.length-1].toFixed(2)]].map(([a,b])=>`<div class="chip">${a}<b>${b}</b></div>`).join('');
+const wanted=rg&&rg!=='ytd'?rg:0,avail=(last-dparse(hrows[0][0]))/864e5;
+$('h-note').textContent=wanted&&avail<wanted*0.9?`Only ${Math.round(avail)} days of history are collected so far (since ${dparse(hrows[0][0]).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}). Older months are added with each refresh.`:'Move your finger or mouse over the chart to read prices. Closing prices, not adjusted for dividends.'}
+$('h-rng').onclick=e=>{const b=e.target.closest('button');if(!b)return;hrange=b.dataset.r;[...$('h-rng').children].forEach(x=>x.classList.toggle('on',x===b));drawHist()};
+$('h-sym').onchange=loadHist;if($('h-sym').value)loadHist();else $('h-note').textContent='Add stocks to see history.';
+// ---- events / news
+const evAll=D.events||[],evKey=evAll.filter(e=>e.scope==='holding'&&e.key);
+const evHtml=e=>`<div class="li"><b>${esc(e.ticker)}</b> <span class="pill ${e.category==='Risk notice'?'p-review':e.category==='Results'||e.category==='Dividend / book closure'?'p-good':'p-grey'}">${esc(e.category)}</span> <small>${esc(e.date)}</small><br>${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(clip(e.title,110))}</a>`:esc(clip(e.title,110))}</div>`;
+$('ev-key').innerHTML=evKey.slice(0,6).map(evHtml).join('')||`<p class="empty">${D.status.find(s=>s.name==='Announcements'&&s.ok)?'No major announcements for your holdings in the last 2 weeks.':'Announcements feed is not working right now.'}</p>`;
+if(evAll.length){let o=false;$('ev-btn').textContent=`Show all ${evAll.length} announcements (holdings and watchlist)`;$('ev-all').innerHTML=evAll.map(evHtml).join('');$('ev-btn').onclick=()=>{o=!o;$('ev-all').classList.toggle('hide',!o);$('ev-btn').textContent=o?'Hide the full list':`Show all ${evAll.length} announcements (holdings and watchlist)`}}else $('ev-btn').classList.add('hide');
+const FD=D.findings||[],KF=D.key_points||[],stanceCls={positive:'p-good',negative:'p-review',neutral:'p-grey',mixed:'p-trim'};
+const fHtml=f=>`<div class="card kf"><h3>${esc(f.headline)} <span class="pill ${stanceCls[f.stance]||'p-grey'}">${esc(f.stance)}</span></h3><p style="margin:6px 0"><b>What happened.</b> ${esc(f.what_happened)}</p><p style="margin:6px 0"><b>What it means for you.</b> ${esc(f.analysis)}</p><p class="reality" style="margin:6px 0"><b>Reality check.</b> ${esc(f.reality_check)}</p><div>${(f.affected||[]).map(t=>`<span class="ev">${esc(t)}</span>`).join('')}</div><div class="src" style="margin-top:6px">${f.sources.map(refChip).join('')}</div><p class="note" style="margin:6px 0 0">Basis: ${esc(f.basis)}${f.basis==='title only'?' (the full document was not read, so treat this as a first read)':''}. Written by the AI analyst from the cited official items only.</p></div>`;
+const kfHtml=k=>`<div class="card kf"><h3>${esc(k.title)}</h3><ul>${k.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul><div class="src">${k.sources.map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)} ↗</a>`).join('')}</div><p class="note" style="margin:6px 0 0">Simple rule-based summary (the AI analyst is off or has not run).</p></div>`;
+if(FD.length){$('kf').innerHTML=FD.map(fHtml).join('')}else if(KF.length){$('kf').innerHTML=KF.slice(0,4).map(kfHtml).join('');$('kf-note').textContent='The AI analyst has not produced findings yet, so these are simple rule-based summaries.'}else $('kf').innerHTML='<div class="card"><p class="empty">No official release found in the last 14 days from the sources listed above. Nothing is shown rather than filling the page with media headlines.</p></div>';
+$('srcs').innerHTML=(D.sources||[]).map(x=>`<a class="srcchip ${x.ok?'ok':'bad'}" href="${esc(x.home)}" target="_blank" rel="noopener" title="${esc((x.covers||'')+' — '+(x.note||''))}">${x.ok?'●':'○'} ${esc(x.name)} ↗<small>${x.count==null?'filings':x.count+' item'+(x.count===1?'':'s')}</small></a>`).join('')||'<span class="empty">Source list not available on the last run.</span>';
+const OF=D.official||[];expandable($('hl'),$('hl-btn'),OF,6,n=>`<div class="li"><small>${esc(n.date||'')}</small> · <a href="${esc(n.source_url||'#')}" target="_blank" rel="noopener"><b>${esc(n.source)}</b> ↗</a> <span class="pill p-grey">${esc(n.basis||'')}</span><br><a href="${esc(n.url||n.source_url||'#')}" target="_blank" rel="noopener">${esc(n.title)}</a></div>`,'releases');
+// ---- data health
+(function(){const NEED={'Prices':'The PSX screener did not answer. Open Actions → latest run → “Build dashboard” and send me the last 20 lines of that log.',
+'52-week ranges':'Company pages were not readable. Run Actions → Refresh with the probe step and send me probe.txt (open yourpage/probe.txt).','KSE-100':'The PSX indices table did not answer: send me probe.txt.',
+'Announcements':'Company announcement tables were not readable: send me probe.txt.','History':'Neither the PSX history page nor the Yahoo fallback answered. Send me the “History” line from the Build log and probe.txt.',
+'Indices':'The PSX indices table did not answer: send me probe.txt.','Shariah lists':'The KMI-30 / KMI All Share pages were not readable. Send probe.txt, or send me the official KMI All Share constituents file/link and I will load it.',
+'Fundamentals':'EPS and dividend tables on PSX company pages could not be read. Send me probe.txt, or the link to a company financials page you can open.','FIPI/LIPI':'I need the exact official page: open the NCCPL FIPI/LIPI page in your browser, then send me its address and a screenshot of the table.',
+'Official sources':'Official pages are not readable by the robot. Send me the address of the press-release list page for each body (SBP, SECP, Finance) as you see it in your browser.','Alerts':'Run Actions → “Test notifications”; its log says which secret is missing or rejected.','Media headlines':'Optional.'};
+const bad=D.status.filter(s=>!s.ok),L=[];
+bad.forEach(s=>L.push(`<li><b>${esc(s.name)}</b>: ${esc(s.note)}<br><span class="need">What is needed: ${esc(NEED[s.name]||'Open the Actions run log and send me the last 20 lines.')}</span></li>`));
+const nf=D.notify||{};if(!(nf.phone&&nf.phone.configured))L.push(`<li><b>Phone alerts</b>: ${esc(nf.phone?nf.phone.note:'unknown')}<br><span class="need">What is needed: the NTFY_TOPIC secret, the same topic you subscribed to in the ntfy app. Then run Actions → Test notifications.</span></li>`);
+if(!(nf.email&&nf.email.configured))L.push(`<li><b>Email alerts</b>: ${esc(nf.email?nf.email.note:'unknown')}<br><span class="need">What is needed: EMAIL_USER and EMAIL_APP_PASSWORD (a 16-character Google App Password). Then run Actions → Test notifications.</span></li>`);
+if((D.ai||{}).status==='off')L.push(`<li><b>AI analyst</b>: ${esc(D.ai.note)}<br><span class="need">What is needed: an API key from console.anthropic.com (prepaid credit) saved as the ANTHROPIC_API_KEY secret.</span></li>`);
+(D.sources||[]).filter(x=>!x.ok).forEach(x=>L.push(`<li><b>${esc(x.name)}</b> (${esc(x.covers||'')}): ${esc(x.note)}<br><span class="need">What is needed: the address of its press-release list page, <a href="${esc(x.home)}" target="_blank" rel="noopener">open the site ↗</a>.</span></li>`));
+L.push('<li><b>Video and social sources (for example YouTube)</b>: not used. They are not authoritative and cannot be fact-checked automatically. If you rely on a particular official channel (for example SBP or PSX press conferences), send me the link and I will treat its published transcript or statement as a source.</li>');
+$('health-list').innerHTML=L.join('')})();
+// ---- tables
+const planCls={core:'p-good',hold:'p-watch',new:'p-good',sell:'p-review',reduce:'p-trim'};
+const numCell=v=>v==null||isNaN(v)?'<span class="num flat">—</span>':`<span class="num ${v>0.05?'gain':v<-0.05?'loss':'flat'}">${pct(v)}</span>`;
+const posBar=r=>{if(r.range_pos==null)return '—';const p=Math.max(0,Math.min(100,r.range_pos)),c=p<=15?'#dc2626':p>=85?'#d97706':'#2563eb';return `<span class="bar"><i style="left:${p}%;background:${c}"></i></span> <small>${Math.round(p)}%</small>`};
+const yCell=v=>v==null?'—':`<b style="color:${v>=4?'var(--ok)':'inherit'};font-size:15px">${f1(v)}%</b>`;
+
+const whyRow=(r,cols)=>{const x=r.sig;if(!x)return '';const a=x.ai,f=x.facts,n=(v,d)=>v==null?'—':(+v).toFixed(d==null?1:d),cv=x.caveats||[];
+const rs_=x.reasons.map(q=>`<li><span class="pts ${q.pts>0?'p':q.pts<0?'m':'z'}">${q.pts>0?'+':''}${q.pts||'rule'}</span>${esc(q.txt)} <small style="color:var(--mut)">(${esc(q.src||'')})</small>${q.url?` <a class="ev" href="${esc(q.url)}" target="_blank" rel="noopener">filing ↗</a>`:''}</li>`).join('')||'<li>No strong factor either way.</li>';
+const qc=x.quality==='Good'?'good':x.quality==='Weak'?'weak':'';
+const flagH=`<div class="flagbox ${qc}"><b>Signal quality: ${esc(x.quality)}</b> · ${esc(x.confidence)} confidence${cv.length?'':' · nothing flagged'}${cv.length?'<ul>'+cv.map(c=>`<li class="${c.sev}">${c.sev==='warn'?'⚑':'ⓘ'} ${esc(c.txt)}</li>`).join('')+'</ul>':''}</div>`;
+const aiH=a?`<h4>AI analyst ${a.stale?'(out of date)':''}</h4><p style="margin:0 0 4px"><span class="pill p-${a.sentiment==='positive'?'good':a.sentiment==='negative'?'review':'grey'}">${esc(a.sentiment)} news tone</span> ${a.view!=='agree'&&!a.stale?`<span class="pill p-watch">${a.view==='upgrade'?'moved up one step':'moved down one step'}</span>`:'<span class="pill p-grey">agrees with rules</span>'}</p><p style="margin:0 0 4px">${esc(a.rationale)}</p>${a.risks.length?'<ul>'+a.risks.map(q=>`<li>${esc(q)}</li>`).join('')+'</ul>':''}${a.opportunity?`<p style="margin:4px 0">${esc(a.opportunity)}</p>`:''}`:`<h4>AI analyst</h4><p style="margin:0">${aiS.status==='off'?'Switched off (no API key yet): rule-based only.':'Not assessed yet. Runs with the daily report or the “Run AI now” option.'}</p>`;
+const refH=`<div style="grid-column:1/-1"><h4>References</h4><a class="ev" href="https://dps.psx.com.pk/company/${esc(r.ticker)}" target="_blank" rel="noopener">PSX company page ↗</a>${a&&a.evidence.length?a.evidence.map(refChip).join(''):''}${[...new Set(x.reasons.map(q=>q.src).filter(Boolean))].map(q=>`<span class="ev" style="background:var(--line);color:var(--mut)">${esc(q)}</span>`).join('')}</div>`;
+return `<tr class="why hide" id="why-${esc(r.ticker)}"><td colspan="${cols}"><div class="why-grid">${flagH}<div><h4>Rule-based score ${x.score>0?'+':''}${x.score}</h4><ul>${rs_}</ul>${x.missing.length?`<p class="note" style="margin:6px 0 0">Missing data: ${esc(x.missing.join(', '))}</p>`:''}</div><div>${aiH}</div><div><h4>Price technicals</h4><ul><li>Trend: <b>${esc(f.trend||'not enough history yet')}</b></li><li>Averages (20/50/200 day): ${n(f.sma20)} / ${n(f.sma50)} / ${n(f.sma200)}</li><li>RSI(14): ${n(f.rsi14,0)} · Bollinger position: ${f.boll_pct_b==null?'—':Math.round(f.boll_pct_b*100)+'%'}</li><li>Support: ${n(f.support)} · Resistance: ${n(f.resistance)}</li><li>1 / 3 month: ${f.ret_1m_pct==null?'—':pct(f.ret_1m_pct)} / ${f.ret_3m_pct==null?'—':pct(f.ret_3m_pct)}</li><li>Payout: ${f.payout_pct==null?'—':Math.round(f.payout_pct)+'% of earnings'}</li><li>History used: ${f.history_days||0} trading days</li></ul></div>${refH}</div></td></tr>`};
+const wAvg=(rows,k)=>{const q=rows.filter(r=>r[k]!=null&&r.weight_pct>0);const w=q.reduce((a,r)=>a+r.weight_pct,0);return w?q.reduce((a,r)=>a+r[k]*r.weight_pct,0)/w:null};
+const hs=held.slice().sort((a,b)=>b.weight_pct-a.weight_pct),cap=(D.rules&&D.rules.max_stock_weight_pct)||12,cnt=f=>hs.filter(f).length;
+$('tab-h-n').textContent=hs.length;$('tab-w-n').textContent=D.watchlist.length;
+const big=hs[0],over=hs.filter(r=>r.weight_pct>cap).length,wy=wAvg(hs,'yield_pct');
+$('h-tiles').innerHTML=[tile('t1 '+(pl>=0?'g':'r'),'Net gain / loss',pct(pl),'against your average cost'),tile('t1 '+(dc>=0?'g':'r'),'Today',pct(dc),'portfolio change'),
+ tile(over?'t4':'t3','Biggest position',big?esc(big.ticker)+' '+f1(big.weight_pct)+'%':'—',over?over+' above the '+cap+'% cap':'cap is '+cap+'% per stock'),
+ tile('t3','Income yield',wy==null?'—':f1(wy)+'%','weighted by position size'),
+ tile('t5','Signals',cnt(r=>r.sig&&['Strong Buy','Accumulate'].includes(r.sig.signal))+' buy · '+cnt(r=>r.sig&&r.sig.signal==='Hold')+' hold',cnt(r=>r.sig&&['Trim/Take Profit','Review/Exit'].includes(r.sig.signal))+' trim or review')].join('');
+let PRIV=null,showP=!!D.show_rs;
+const privOf=r=>PRIV&&PRIV[r.ticker]?{q:PRIV[r.ticker].q,a:PRIV[r.ticker].a}:(D.show_rs&&r.avg_cost!=null?{q:r.qty,a:r.avg_cost}:null);
+const lockI='<span class="lock" title="Unlock with your passphrase (above the table)">🔒</span>';
+function drawHold(){$('hold').innerHTML=`<table><thead><tr><th>Stock</th><th class="n">Avg cost (Rs)</th><th class="n">Price (Rs)</th>${showP?'<th class="n">Shares</th><th class="n">Value</th>':''}<th class="n">Weight</th><th class="n">Today</th><th class="n">Gain/Loss</th><th>52-week position</th><th class="n">Yield</th><th class="n">P/E</th><th>Plan</th><th>Signal</th><th></th></tr></thead><tbody>${hs.map(r=>{const p=privOf(r);return `<tr><td><span class="tkr">${r.ticker}</span><span class="sec">${esc(tc(r.sector))}</span></td><td class="n"><b>${p?(+p.a).toFixed(2):lockI}</b></td><td class="n">${r.price==null?'—':r.price.toFixed(2)}</td>${showP?`<td class="n">${p?Math.round(p.q).toLocaleString('en-US'):lockI}</td><td class="n"><b>${p&&r.price?rs(p.q*r.price):lockI}</b></td>`:''}<td class="n"><b style="color:${r.weight_pct>cap?'var(--bad)':'inherit'}">${f1(r.weight_pct)}%</b></td><td class="n">${numCell(r.change_pct)}</td><td class="n">${numCell(r.pl_pct)}</td><td>${posBar(r)}</td><td class="n">${yCell(r.yield_pct)}</td><td class="n"><b>${f1(r.pe)}</b></td><td><span class="pill ${planCls[r.plan]||'p-grey'}">${esc(r.plan||'')}</span></td><td>${chip(r,true)}</td><td><button class="rowbtn" data-a="BUY" data-t="${r.ticker}">Buy</button><button class="rowbtn" data-a="SELL" data-t="${r.ticker}">Sell</button></td></tr>${whyRow(r,showP?14:12)}`}).join('')}</tbody></table>`}
+drawHold();
+async function decryptBlob(b64,pass){const raw=Uint8Array.from(atob(b64),c=>c.charCodeAt(0)),enc=new TextEncoder(),km=await crypto.subtle.importKey('raw',enc.encode(pass),'PBKDF2',false,['deriveKey']),key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:raw.slice(0,16),iterations:200000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);return new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:raw.slice(16,28)},key,raw.slice(28)))}
+async function unlock(pass,quiet){const m=$('u-msg');if(!D.private){m.textContent='Not available: the HOLDINGS_KEY secret was not set on the last run.';return}if(!window.crypto||!crypto.subtle){m.textContent='Open the page over https to unlock.';return}
+try{PRIV=JSON.parse(await decryptBlob(D.private,pass));showP=true;drawHold();m.style.color='var(--ok)';m.textContent='Unlocked on this device only.';try{localStorage.setItem('psx_pass',pass)}catch(e){}}catch(e){if(!quiet){m.style.color='var(--bad)';m.textContent='Wrong passphrase.'}}}
+$('u-btn').onclick=()=>unlock($('u-pass').value);
+try{const sp=localStorage.getItem('psx_pass');if(sp){$('u-pass').value=sp;unlock(sp,true)}}catch(e){}
+const wl=D.watchlist,hit=wl.filter(r=>r.sig&&r.sig.flags.includes('all_triggers')).length;
+const gaps=wl.map(r=>{const t=r.sig&&r.sig.triggers.find(x=>x.k==='entry');return t&&r.price?[r.ticker,(r.price-t.target)/t.target*100]:null}).filter(Boolean).sort((a,b)=>a[1]-b[1]);
+$('w-tiles').innerHTML=[tile('t3','Tracked stocks',wl.length,'on your watchlist'),tile(hit?'t1 g':'t1','Triggers met',hit,hit?'ready to study for a purchase':'none of your triggers met yet'),
+ tile('t4','Closest to entry',gaps.length?esc(gaps[0][0]):'—',gaps.length?(gaps[0][1]<=0?'at or below your entry price':f1(gaps[0][1])+'% above your entry price'):'set an entry price below'),
+ tile('t3','Average yield',(()=>{const q=wl.filter(r=>r.yield_pct!=null);return q.length?f1(q.reduce((a,r)=>a+r.yield_pct,0)/q.length)+'%':'—'})(),'across the watchlist'),
+ tile('t5','AI / rule buy signals',wl.filter(r=>r.sig&&['Strong Buy','Accumulate'].includes(r.sig.signal)).length,'Strong Buy or Accumulate')].join('');
+const trgCell=r=>{const t=r.sig?r.sig.triggers:[];return (t.length?t.map(x=>`<span class="trg ${x.hit?'ok':''}" title="${esc(x.label)}: target ${x.target}, now ${x.now==null?'—':f1(x.now)}">${x.hit?'✓':'✗'} ${x.k==='entry'?'≤ Rs '+x.target:x.k==='yield'?'yield ≥ '+x.target+'%':'P/E ≤ '+x.target}</span>`).join(''):'<span class="trg">none set</span>')+`<button class="rowbtn trgbtn" data-t="${r.ticker}">Set</button>`};
+$('watch').innerHTML=`<table><thead><tr><th>Stock</th><th class="n">Price (Rs)</th><th class="n">Today</th><th>52-week position</th><th class="n">Yield</th><th class="n">P/E</th><th>Your triggers</th><th>Signal</th><th>Note</th><th></th></tr></thead><tbody>${wl.map(r=>`<tr><td><span class="tkr">${r.ticker}</span><span class="sec">${esc(tc(r.sector||''))}</span></td><td class="n"><b>${r.price==null?'—':r.price.toFixed(2)}</b></td><td class="n">${numCell(r.change_pct)}</td><td>${posBar(r)}</td><td class="n">${yCell(r.yield_pct)}</td><td class="n"><b>${f1(r.pe)}</b></td><td>${trgCell(r)}</td><td>${chip(r,true)}</td><td>${esc(r.note||'')}</td><td><button class="rowbtn" data-a="BUY" data-t="${r.ticker}">Bought</button><button class="rowbtn" data-a="WATCH REMOVE" data-t="${r.ticker}">Remove</button></td></tr>${whyRow(r,10)}`).join('')||'<tr><td colspan="10" class="empty">Your watchlist is empty. Add stocks below.</td></tr>'}</tbody></table>`;
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));$('pane-hold').classList.toggle('hide',b.dataset.tab!=='hold');$('pane-watch').classList.toggle('hide',b.dataset.tab!=='watch')});
+document.body.addEventListener('click',e=>{const c=e.target.closest('.sigchip[data-why]');if(c){const row=document.getElementById('why-'+c.dataset.why);if(row)row.classList.toggle('hide')}});
+if(location.hash==='#watchlist')document.querySelector('.tab[data-tab="watch"]').click();
+$('wa-add').onclick=()=>{const t=($('wa-sym').value||'').toUpperCase().trim();if(!t)return;addLine('WATCH ADD',t);$('wa-sym').value='';location.hash='#update'};
+const qBadge=()=>{const n=ta.value.split(/\n+/).filter(l=>l.trim()).length,b=$('q-badge');b.textContent=n?n+' change'+(n>1?'s':'')+' waiting to send':'';b.classList.toggle('hide',!n)};setInterval(qBadge,500);
+// ---- update portfolio form
+$('symlist').innerHTML=(D.symbols||[]).map(s=>`<option value="${s}">`).join('');
+const ta=$('f-text');try{const p=localStorage.getItem('psx_pass');if(p){$('f-pass').value=p;$('f-rem').checked=true}}catch(e){}
+function addLine(act,sym,qty,px){sym=(sym||'').toUpperCase().trim();if(!sym)return;ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+(act.startsWith('WATCH')?`${act} ${sym}`:`${act} ${sym} ${qty||''} @ ${px||''}`.trim())}
+$('f-add').onclick=()=>{addLine($('f-act').value,$('f-sym').value,$('f-qty').value,$('f-px').value);$('f-sym').value=$('f-qty').value=$('f-px').value=''};
+document.body.addEventListener('click',e=>{const b=e.target.closest('.rowbtn');if(!b)return;$('f-act').value=b.dataset.a;$('f-sym').value=b.dataset.t;location.hash='#update';setTimeout(()=>$((b.dataset.a.startsWith('WATCH'))?'f-add':'f-qty').focus(),300);if(b.dataset.a.startsWith('WATCH')){addLine(b.dataset.a,b.dataset.t);$('f-sym').value=''}});
+document.body.addEventListener('click',e=>{const b=e.target.closest('.trgbtn');if(b){$('w-sym').value=b.dataset.t;$('w-entry').focus()}});
+$('w-add').onclick=()=>{const t=($('w-sym').value||'').toUpperCase().trim();if(!t)return;const p=[['entry','w-entry'],['yield','w-yield'],['pe','w-pe']].filter(x=>$(x[1]).value.trim()!=='').map(x=>x[0]+'='+$(x[1]).value.trim());if(!p.length)return;ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+'WATCH SET '+t+' '+p.join(' ');['w-sym','w-entry','w-yield','w-pe'].forEach(i=>$(i).value='');location.hash='#update'};
+const RS=/^watch\s+set\s+([a-z0-9]{2,8})\s+(.+)$/i;
+const RE=/^(buy|bought|sell|sold|set)\s+([a-z0-9]{2,8})\s+([\d,.]+)\s*(?:@|at)?\s*(?:rs\.?)?\s*([\d,.]+)$/i,RW=/^watch\s+(add|remove)\s+(.+)$/i;
+function parseLines(t){const ops=[],errs=[];t.split(/\n+/).map(s=>s.trim()).filter(Boolean).forEach(l=>{let m=l.match(RE);if(m){const k=m[1].toLowerCase();ops.push({op:k.startsWith('b')?'buy':k.startsWith('s')&&k!=='set'?'sell':'set',t:m[2].toUpperCase(),q:parseFloat(m[3].replace(/,/g,'')),p:parseFloat(m[4].replace(/,/g,''))});return}
+m=l.match(RS);if(m){const o={op:'watch_set',t:m[1].toUpperCase()};let ok=true;m[2].split(/\s+/).forEach(kv=>{const q=kv.match(/^(entry|yield|pe)=([\d.]+)$/i);if(q)o[q[1].toLowerCase()]=q[2];else ok=false});if(ok)ops.push(o);else errs.push(l);return}
+m=l.match(RW);if(m){m[2].split(/[\s,]+/).filter(Boolean).forEach(s=>ops.push({op:'watch_'+m[1].toLowerCase(),t:s.toUpperCase()}));return}errs.push(l)});return{ops,errs}}
+async function encrypt(text,pass){const enc=new TextEncoder(),salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+const km=await crypto.subtle.importKey('raw',enc.encode(pass),'PBKDF2',false,['deriveKey']),key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:200000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt']);
+const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,enc.encode(text))),out=new Uint8Array(28+ct.length);out.set(salt,0);out.set(iv,16);out.set(ct,28);let s='';out.forEach(b=>s+=String.fromCharCode(b));return btoa(s)}
+$('f-send').onclick=async()=>{const msg=$('f-msg');msg.style.color='var(--bad)';const {ops,errs}=parseLines(ta.value);
+if(!ops.length){msg.textContent='Add at least one change first, for example: BUY HUBC 100 @ 188.5';return}
+if(errs.length){msg.textContent='I could not read this line: "'+errs[0]+'". Use the format BUY SYMBOL SHARES @ PRICE.';return}
+const bad=ops.find(o=>!o.op.startsWith('watch_')&&!(o.q>=0&&o.p>0));if(bad){msg.textContent='Check the shares and price for '+bad.t+'.';return}
+const pass=$('f-pass').value;if(pass.length<8){msg.textContent='Enter your passphrase (the HOLDINGS_KEY secret).';return}
+if(!D.repo){msg.textContent='The repository name is missing from settings.json (github_repo).';return}
+if(!window.crypto||!crypto.subtle){msg.textContent='This browser cannot encrypt here. Open the page over https in a current browser.';return}
+try{localStorage[$('f-rem').checked?'setItem':'removeItem']('psx_pass',pass)}catch(e){}
+try{const blob=await encrypt(JSON.stringify({ops,ts:Date.now()}),pass);msg.style.color='var(--ok)';msg.textContent='Encrypted. Opening GitHub: press “Submit new issue” there.';
+window.open(`https://github.com/${D.repo}/issues/new?title=${encodeURIComponent('Portfolio update')}&body=${encodeURIComponent(blob)}`,'_blank','noopener')}catch(e){msg.textContent='Encryption failed: '+e}};
+</script></body></html>

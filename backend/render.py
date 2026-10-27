@@ -24,4 +24,4 @@ def write(docs, data):
         fh.write(html)
 
 
-TEMPLATE = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "template.html"), encoding="utf-8").read()
+TEMPLATE = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend", "index.template.html"), encoding="utf-8").read()

@@ -1,4 +1,5 @@
 """Ratios and rule checks. Alerts are prompts to look closer, not buy/sell instructions."""
+import hashlib
 
 
 def f(x):
@@ -27,6 +28,7 @@ def enrich(rows, held_only_total=True):
             yield_pct=dps / price * 100 if price and dps is not None else f(r.get("yield_ttm")),
             pe=price / eps if price and eps and eps > 0 else f(r.get("pe_ttm")),
             payout_pct=dps / eps * 100 if eps and eps > 0 and dps is not None else None,
+            pb=price / f(r.get("bvps")) if price and f(r.get("bvps")) else None,
         )
         d["pl"] = d["value"] - d["cost"]
         d["pl_pct"] = d["pl"] / d["cost"] * 100 if d["cost"] else None
@@ -100,7 +102,7 @@ def run_rules(h, watch, mix, index, announcements, R):
     tickers = {r["ticker"] for r in held}
     for a in announcements or []:
         if a["ticker"] in tickers and a["category"] == "Risk notice":
-            add(f"ann-{a['ticker']}-{abs(hash(a['title'])) % 10**6}", a["ticker"], "risk", "review", "Risk notice", a["title"][:220])
+            add(f"ann-{a['ticker']}-{hashlib.md5(a['title'].encode()).hexdigest()[:8]}", a["ticker"], "risk", "review", "Risk notice", a["title"][:220])
     order = {"review": 0, "trim": 1, "sector": 2, "watch": 3, "opportunity": 4}
     A.sort(key=lambda a: order.get(a["severity"], 9))
     return A

@@ -7,7 +7,7 @@ import vault
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CFG = os.path.join(ROOT, "config")
 H_COLS = "ticker,sector,tier,plan,qty,avg_cost,price,change_pct,price_time,low52,high52,eps,dps".split(",")
-W_COLS = "ticker,sector,price,change_pct,price_time,low52,high52,eps,dps,note".split(",")
+W_COLS = "ticker,sector,price,change_pct,price_time,low52,high52,eps,dps,entry_price,target_yield,target_pe,note".split(",")
 TICK = re.compile(r"^[A-Z0-9]{2,8}$")
 
 
@@ -89,6 +89,19 @@ def apply_ops(ops, H, W, market):
             if not info:
                 return H, W, "a ticker could not be checked on PSX"
             W.append({**{c: "" for c in W_COLS}, "ticker": t, "sector": bucket(info.get("sector")), "note": "added from dashboard"})
+        elif kind == "watch_set":
+            w = next((w for w in W if w["ticker"] == t), None)
+            if w is None:
+                if row is not None or not info:
+                    return H, W, "a ticker is not on the watchlist and could not be added"
+                w = {**{c: "" for c in W_COLS}, "ticker": t, "sector": bucket(info.get("sector")), "note": "added from dashboard"}
+                W.append(w)
+            for k, col in (("entry", "entry_price"), ("yield", "target_yield"), ("pe", "target_pe")):
+                if k in op and str(op[k]).strip() != "":
+                    v = _f(op[k])
+                    if v is None or v < 0 or v > 1e6:
+                        return H, W, "a watchlist trigger value is not valid"
+                    w[col] = "" if v == 0 else f"{v:g}"      # 0 clears a trigger
         elif kind == "watch_remove":
             W[:] = [w for w in W if w["ticker"] != t]
         else:
@@ -109,7 +122,7 @@ def main():
     W = read(os.path.join(CFG, "watchlist.csv"), W_COLS)
     market = {}
     try:
-        import fetch
+        import fetcher as fetch
         market = fetch.market_watch()
     except Exception:
         pass

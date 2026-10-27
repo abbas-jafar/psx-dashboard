@@ -9,6 +9,10 @@ on:
         description: 'Also send a test phone + email notification'
         type: boolean
         default: false
+      run_ai:
+        description: 'Run the AI analyst now (it also runs automatically with the 15:45 daily report)'
+        type: boolean
+        default: false
       history_budget:
         description: 'How many months of price history to fetch this run (80 normal, 400 to catch up fast)'
         default: '80'
@@ -30,24 +34,32 @@ jobs:
         env:
           HOLDINGS_CSV: ${{ secrets.HOLDINGS_CSV }}
           HOLDINGS_KEY: ${{ secrets.HOLDINGS_KEY }}
-        run: python src/vault.py load
+        run: python backend/vault.py load
       - name: Probe PSX feeds (manual runs only)
         if: github.event_name == 'workflow_dispatch'
         continue-on-error: true
-        run: python src/probe.py
+        run: python backend/probe.py
+      - name: Notification channels (no secret values are printed)
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+        run: python backend/notify.py --check
       - name: Build dashboard
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DASH_URL: ${{ vars.DASH_URL }}
           HISTORY_BUDGET: ${{ inputs.history_budget || '80' }}
         run: |
           ARGS=""
           if [ "${{ github.event.schedule }}" = "45 10 * * 1-5" ]; then ARGS="--daily"; fi
           if [ "${{ inputs.test_notify }}" = "true" ]; then ARGS="$ARGS --test-notify"; fi
-          python src/main.py $ARGS
+          if [ "${{ inputs.run_ai }}" = "true" ]; then ARGS="$ARGS --ai"; fi
+          python backend/main.py $ARGS
       - name: Publish
         run: |
           git config user.name "psx-bot"; git config user.email "psx-bot@users.noreply.github.com"

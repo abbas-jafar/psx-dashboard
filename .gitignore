@@ -2,3 +2,5 @@ config/holdings.csv
 __pycache__/
 result.txt
 .changed
+
+demo_docs/
