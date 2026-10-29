@@ -1,80 +1,80 @@
-GET /market-watch -> 404 text/html; charset=utf-8 len=47734
+GET /market-watch -> 404 text/html; charset=utf-8 len=47738
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /market-summary -> 404 text/html; charset=utf-8 len=47736
+GET /market-summary -> 404 text/html; charset=utf-8 len=47740
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /indices -> 200 text/html; charset=utf-8 len=56768
+GET /indices -> 200 text/html; charset=utf-8 len=56761
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: ['Index', 'High', 'Low', 'Current', 'Change', '% Change', 'Sector Indices']
 
-GET /indices/KSE100 -> 200 text/html; charset=utf-8 len=73926
+GET /indices/KSE100 -> 200 text/html; charset=utf-8 len=74265
   start: <h2 style="margin-top:0;">KSE 100 INDEX Constituents</h2><div class="tbl__wrapper"><table class="tbl" data-page-length="25"><thead class="tbl__head"><tr><th>SYMBOL</th><th style="width:180px;">NAME</th><th class="right">LDCP</th><th class="right">CURRENT</th><th class="right">CHANGE</th><th class="right">CHANGE (%)</th><th class="right">IDX WTG (%)
   th: ['SYMBOL', 'NAME', 'LDCP', 'CURRENT', 'CHANGE', 'CHANGE (%)', 'IDX WTG (%)', 'IDX POINT', 'VOLUME', 'FREEFLOAT (M)', 'MARKET CAP (M)']
 
-GET /timeseries/int/KSE100 -> 404 text/html; charset=utf-8 len=47745
+GET /timeseries/int/KSE100 -> 404 text/html; charset=utf-8 len=47747
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /timeseries/eod/KSE100 -> 404 text/html; charset=utf-8 len=47745
+GET /timeseries/eod/KSE100 -> 404 text/html; charset=utf-8 len=47747
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /timeseries/int/OGDC -> 404 text/html; charset=utf-8 len=47743
+GET /timeseries/int/OGDC -> 404 text/html; charset=utf-8 len=47745
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /timeseries/eod/OGDC -> 404 text/html; charset=utf-8 len=47743
+GET /timeseries/eod/OGDC -> 404 text/html; charset=utf-8 len=47745
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /company/OGDC -> 200 text/html; charset=utf-8 len=75613
+GET /company/OGDC -> 200 text/html; charset=utf-8 len=75630
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="Get detailed information about the Oil &amp; Gas Development Company Limited (OGDC) sto
   th: ['Date', 'Title', 'Document', 'Date', 'Title', 'Document', 'Date', 'Title', 'Document', '', '2026', '2025', '2024', '2023']
 
-GET /announcements/companies -> 200 text/html; charset=utf-8 len=49544
+GET /announcements/companies -> 200 text/html; charset=utf-8 len=49546
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /announcements -> 200 text/html; charset=utf-8 len=49534
+GET /announcements -> 200 text/html; charset=utf-8 len=49536
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET / -> 200 text/html; charset=utf-8 len=96360
+GET / -> 200 text/html; charset=utf-8 len=96424
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /data/KSE100 -> 404 text/html; charset=utf-8 len=47735
+GET /data/KSE100 -> 404 text/html; charset=utf-8 len=47737
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /trading-panel -> 200 text/html; charset=utf-8 len=60927
+GET /trading-panel -> 200 text/html; charset=utf-8 len=61002
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: ['Date', 'Time', 'Total Trades', 'Advance', 'Decline', 'Unchanged', 'Total', 'Exchange Volume', 'Exchange Value', 'Market', 'State', 'Trades', 'Volume', 'Value']
 
-GET /screener -> 200 text/html; charset=utf-8 len=702521
+GET /screener -> 200 text/html; charset=utf-8 len=702327
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: ['SYMBOL', 'SECTOR', 'LISTED IN', 'MARKET CAP.', 'PRICE', 'CHANGE (%)', '1-YEAR CH. (%) *', 'PE RATIO (TTM)', 'DIVIDEND YIELD (%)', 'FREE FLOAT', '30D VOLUME AVG.']
 
-GET /historical -> 200 text/html; charset=utf-8 len=49901
+GET /historical -> 200 text/html; charset=utf-8 len=49903
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /graphical-view -> 200 text/html; charset=utf-8 len=48760
+GET /graphical-view -> 200 text/html; charset=utf-8 len=48762
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /indices/KMI30 -> 200 text/html; charset=utf-8 len=22901
+GET /indices/KMI30 -> 200 text/html; charset=utf-8 len=22898
   start: <h2 style="margin-top:0;">KMI INDEX Constituents</h2><div class="tbl__wrapper"><table class="tbl" data-page-length="25"><thead class="tbl__head"><tr><th>SYMBOL</th><th style="width:180px;">NAME</th><th class="right">LDCP</th><th class="right">CURRENT</th><th class="right">CHANGE</th><th class="right">CHANGE (%)</th><th class="right">IDX WTG (%)</th
   th: ['SYMBOL', 'NAME', 'LDCP', 'CURRENT', 'CHANGE', 'CHANGE (%)', 'IDX WTG (%)', 'IDX POINT', 'VOLUME', 'FREEFLOAT (M)', 'MARKET CAP (M)']
 
-GET /indices/KMIALLSHR -> 200 text/html; charset=utf-8 len=228951
+GET /indices/KMIALLSHR -> 200 text/html; charset=utf-8 len=229612
   start: <h2 style="margin-top:0;">KMIALLSHR Constituents</h2><div class="tbl__wrapper"><table class="tbl" data-page-length="25"><thead class="tbl__head"><tr><th>SYMBOL</th><th style="width:180px;">NAME</th><th class="right">LDCP</th><th class="right">CURRENT</th><th class="right">CHANGE</th><th class="right">CHANGE (%)</th><th class="right">IDX WTG (%)</th
   th: ['SYMBOL', 'NAME', 'LDCP', 'CURRENT', 'CHANGE', 'CHANGE (%)', 'IDX WTG (%)', 'IDX POINT', 'VOLUME', 'SHARES (M)', 'MARKET CAP (M)']
 
-GET /indices/KSE30 -> 200 text/html; charset=utf-8 len=22749
+GET /indices/KSE30 -> 200 text/html; charset=utf-8 len=22816
   start: <h2 style="margin-top:0;">KSE 30 INDEX Constituents</h2><div class="tbl__wrapper"><table class="tbl" data-page-length="25"><thead class="tbl__head"><tr><th>SYMBOL</th><th style="width:180px;">NAME</th><th class="right">LDCP</th><th class="right">CURRENT</th><th class="right">CHANGE</th><th class="right">CHANGE (%)</th><th class="right">IDX WTG (%)<
   th: ['SYMBOL', 'NAME', 'LDCP', 'CURRENT', 'CHANGE', 'CHANGE (%)', 'IDX WTG (%)', 'IDX POINT', 'VOLUME', 'FREEFLOAT (M)', 'MARKET CAP (M)']
 
@@ -86,14 +86,14 @@ GET https://www.nccpl.com.pk/ -> 403 text/html; charset=UTF-8 len=5438
   start: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="content-security-policy" co
   th: []
 
-POST /historical -> 404 text/html; charset=utf-8 len=47734
+POST /historical -> 404 text/html; charset=utf-8 len=47736
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-POST /announcements/companies -> 404 text/html; charset=utf-8 len=47747
+POST /announcements/companies -> 404 text/html; charset=utf-8 len=47749
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-POST /announcements -> 404 text/html; charset=utf-8 len=47737
+POST /announcements -> 404 text/html; charset=utf-8 len=47739
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
