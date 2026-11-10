@@ -6,11 +6,11 @@ GET /market-summary -> 404 text/html; charset=utf-8 len=47640
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /indices -> 200 text/html; charset=utf-8 len=56663
+GET /indices -> 200 text/html; charset=utf-8 len=56630
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: ['Index', 'High', 'Low', 'Current', 'Change', '% Change', 'Sector Indices']
 
-GET /indices/KSE100 -> 200 text/html; charset=utf-8 len=74289
+GET /indices/KSE100 -> 200 text/html; charset=utf-8 len=74426
   start: <h2 style="margin-top:0;">KSE 100 INDEX Constituents</h2><div class="tbl__wrapper"><table class="tbl" data-page-length="25"><thead class="tbl__head"><tr><th>SYMBOL</th><th style="width:180px;">NAME</th><th class="right">LDCP</th><th class="right">CURRENT</th><th class="right">CHANGE</th><th class="right">CHANGE (%)</th><th class="right">IDX WTG (%)
   th: ['SYMBOL', 'NAME', 'LDCP', 'CURRENT', 'CHANGE', 'CHANGE (%)', 'IDX WTG (%)', 'IDX POINT', 'VOLUME', 'FREEFLOAT (M)', 'MARKET CAP (M)']
 
@@ -30,7 +30,7 @@ GET /timeseries/eod/OGDC -> 404 text/html; charset=utf-8 len=47645
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /company/OGDC -> 200 text/html; charset=utf-8 len=73424
+GET /company/OGDC -> 200 text/html; charset=utf-8 len=73436
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="Get detailed information about the Oil &amp; Gas Development Company Limited (OGDC) sto
   th: ['Date', 'Title', 'Document', 'Date', 'Title', 'Document', 'Date', 'Title', 'Document', '', '2026', '2025', '2024', '2023']
 
@@ -42,7 +42,7 @@ GET /announcements -> 200 text/html; charset=utf-8 len=49436
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET / -> 200 text/html; charset=utf-8 len=96299
+GET / -> 200 text/html; charset=utf-8 len=96289
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
@@ -50,11 +50,11 @@ GET /data/KSE100 -> 404 text/html; charset=utf-8 len=47637
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /trading-panel -> 200 text/html; charset=utf-8 len=60906
+GET /trading-panel -> 200 text/html; charset=utf-8 len=60904
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: ['Date', 'Time', 'Total Trades', 'Advance', 'Decline', 'Unchanged', 'Total', 'Exchange Volume', 'Exchange Value', 'Market', 'State', 'Trades', 'Volume', 'Value']
 
-GET /screener -> 200 text/html; charset=utf-8 len=701277
+GET /screener -> 200 text/html; charset=utf-8 len=701247
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: ['SYMBOL', 'SECTOR', 'LISTED IN', 'MARKET CAP.', 'PRICE', 'CHANGE (%)', '1-YEAR CH. (%) *', 'PE RATIO (TTM)', 'DIVIDEND YIELD (%)', 'FREE FLOAT', '30D VOLUME AVG.']
 
@@ -66,15 +66,15 @@ GET /graphical-view -> 200 text/html; charset=utf-8 len=48662
   start: <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="google-site-verification" content="ucGuScv6fdM8uhZru-aeXK4qsaPfO3HiuZFKB90UpPU"><meta name="description" content="PSX (Pakistan Stock Exchange Limited) - Stock/share market updates from Pakistan’s prem
   th: []
 
-GET /indices/KMI30 -> 200 text/html; charset=utf-8 len=22970
+GET /indices/KMI30 -> 200 text/html; charset=utf-8 len=22985
   start: <h2 style="margin-top:0;">KMI INDEX Constituents</h2><div class="tbl__wrapper"><table class="tbl" data-page-length="25"><thead class="tbl__head"><tr><th>SYMBOL</th><th style="width:180px;">NAME</th><th class="right">LDCP</th><th class="right">CURRENT</th><th class="right">CHANGE</th><th class="right">CHANGE (%)</th><th class="right">IDX WTG (%)</th
   th: ['SYMBOL', 'NAME', 'LDCP', 'CURRENT', 'CHANGE', 'CHANGE (%)', 'IDX WTG (%)', 'IDX POINT', 'VOLUME', 'FREEFLOAT (M)', 'MARKET CAP (M)']
 
-GET /indices/KMIALLSHR -> 200 text/html; charset=utf-8 len=228972
+GET /indices/KMIALLSHR -> 200 text/html; charset=utf-8 len=228942
   start: <h2 style="margin-top:0;">KMIALLSHR Constituents</h2><div class="tbl__wrapper"><table class="tbl" data-page-length="25"><thead class="tbl__head"><tr><th>SYMBOL</th><th style="width:180px;">NAME</th><th class="right">LDCP</th><th class="right">CURRENT</th><th class="right">CHANGE</th><th class="right">CHANGE (%)</th><th class="right">IDX WTG (%)</th
   th: ['SYMBOL', 'NAME', 'LDCP', 'CURRENT', 'CHANGE', 'CHANGE (%)', 'IDX WTG (%)', 'IDX POINT', 'VOLUME', 'SHARES (M)', 'MARKET CAP (M)']
 
-GET /indices/KSE30 -> 200 text/html; charset=utf-8 len=23003
+GET /indices/KSE30 -> 200 text/html; charset=utf-8 len=23009
   start: <h2 style="margin-top:0;">KSE 30 INDEX Constituents</h2><div class="tbl__wrapper"><table class="tbl" data-page-length="25"><thead class="tbl__head"><tr><th>SYMBOL</th><th style="width:180px;">NAME</th><th class="right">LDCP</th><th class="right">CURRENT</th><th class="right">CHANGE</th><th class="right">CHANGE (%)</th><th class="right">IDX WTG (%)<
   th: ['SYMBOL', 'NAME', 'LDCP', 'CURRENT', 'CHANGE', 'CHANGE (%)', 'IDX WTG (%)', 'IDX POINT', 'VOLUME', 'FREEFLOAT (M)', 'MARKET CAP (M)']
 
