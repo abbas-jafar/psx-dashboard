@@ -32,7 +32,8 @@ def selftest():
         ("KMI-30 constituents", lambda: len(fetch.index_members("KMI30"))),
         ("KMI All Share constituents", lambda: len(fetch.index_members("KMIALLSHR"))),
         ("fundamentals + payouts HUBC", lambda: {k: v for k, v in fetch.fundamentals("HUBC").items() if k != "payouts"}),
-        ("FIPI / LIPI flows", lambda: fetch.flows(load_json(os.path.join(CFG, "settings.json"), {}).get("flows_urls") or fetch.DEFAULT_FLOWS_URLS)),
+        ("FIPI / LIPI flows", lambda: fetch.flows_from_files(os.path.join(CFG, "flows"))),
+        ("SBP policy rate", fetch.sbp_macro),
     ]
     for name, fn in checks:
         try:
@@ -60,7 +61,7 @@ def main():
     status, index, anns, news, all_symbols = [], None, [], [], []
     now = dt.datetime.now(fetch.PKT)
     prices_ok = False
-    idx_list, flows, ext, src_status = [], None, [], []
+    idx_list, flows, ext, src_status, sbp_v = [], None, [], [], None
     fundamentals = load_json(os.path.join(DOCS, "fund_cache.json"), {}).get("data", {})
     _m = load_json(os.path.join(DOCS, "members_cache.json"), {})
     members = {k: set(_m[k]) for k in ("KMI30", "KMIALLSHR") if _m.get(k)}
@@ -84,6 +85,17 @@ def main():
                     if q:
                         mw[s] = q
         all_symbols = sorted(k for k in mw if k.isalnum())
+        try:   # public price list so a Google Sheet can read it: =IMPORTDATA(".../prices.csv")
+            os.makedirs(DOCS, exist_ok=True)
+            with open(os.path.join(DOCS, "prices.csv"), "w", newline="") as fh:
+                w = csv.writer(fh)
+                w.writerow(["ticker", "price", "change_pct", "pe_ttm", "yield_ttm", "updated"])
+                stamp = dt.datetime.now(fetch.PKT).strftime("%Y-%m-%d %H:%M")
+                for k in sorted(mw):
+                    if k.isalnum() and mw[k].get("price"):
+                        w.writerow([k, mw[k]["price"], mw[k].get("change_pct"), mw[k].get("pe_ttm"), mw[k].get("yield_ttm"), stamp])
+        except Exception as e:
+            print("prices.csv not written:", e)
         hit = 0
         for r in holdings + watch:
             q = mw.get(r["ticker"])
@@ -183,10 +195,21 @@ def main():
         fundamentals = fc["data"]
         status.append({"name": "Fundamentals", "ok": bool(fundamentals), "note": f"EPS and dividend history for {len(fundamentals)}/{len(symbols)} stocks" if fundamentals else "company page tables not readable; using PSX ratios only"})
         try:
-            flows = fetch.flows(cfg.get("flows_urls") or fetch.DEFAULT_FLOWS_URLS)
-            status.append({"name": "FIPI/LIPI", "ok": True, "note": f"foreign net {flows['fipi_net']}, local net {flows['lipi_net']}"})
+            try:
+                flows = fetch.flows_from_files(os.path.join(CFG, "flows"))
+            except Exception as fe:
+                if not cfg.get("flows_urls"):
+                    raise RuntimeError(str(fe))
+                flows = fetch.flows(cfg["flows_urls"])
+            dts = ", ".join(f"{k.upper()} {v or 'date not in file name'}" for k, v in (flows.get("dates") or {}).items())
+            status.append({"name": "FIPI/LIPI", "ok": not flows.get("stale"), "note": f"foreign net {flows['fipi_net']}, local net {flows['lipi_net']} (PKR m){'; files: ' + dts if dts else ''}" + ("; file is old or undated: upload today's" if flows.get("stale") else "")})
         except Exception as e:
             status.append({"name": "FIPI/LIPI", "ok": False, "note": "optional, not available: " + str(e)[:90]})
+        try:
+            sbp_v = fetch.sbp_macro()
+            status.append({"name": "SBP policy rate", "ok": True, "note": f"{sbp_v['policy_rate_pct']}%"})
+        except Exception as e:
+            status.append({"name": "SBP policy rate", "ok": False, "note": "optional, not available: " + str(e)[:90]})
     else:
         status.append({"name": "Offline mode", "ok": False, "note": "showing prices saved in the CSV files"})
 
@@ -226,6 +249,8 @@ def main():
     for i in idx_list:
         if i.get("change_pct") is not None:
             mk[i["name"].replace("-", "").replace(" ", "")] = {"change_pct": i["change_pct"], "level": i["level"]}
+    if sbp_v:
+        mk["SBP"] = {"policy_rate_pct": sbp_v["policy_rate_pct"]}
     if flows:
         mk["FIPI_LIPI"] = {k: v for k, v in (("fipi_net", flows.get("fipi_net")), ("lipi_net", flows.get("lipi_net"))) if v is not None}
     # ---- official items for the AI and the page: PSX filings of your stocks first, then official bodies
@@ -347,7 +372,7 @@ def main():
             "show_rs": cfg.get("show_rs_amounts", False), "repo": cfg.get("github_repo", ""), "totals": T, "holdings": H, "watchlist": W,
             "sector_mix": mix, "alerts": alerts, "events": events, "index": index, "news": news,
             "key_points": [] if ai_block.get("findings") else insights.key_points([{"title": f"{i['title']} - {i['source']}", "url": i["url"], "date": i.get("date", "")} for i in off_items if i["source_id"] != "psx"] + news, index), "status": status, "symbols": all_symbols,
-            "rules": R, "indices": idx_list, "flows": flows, "ai": {k: v for k, v in ai_block.items() if k != "assessments"}, "verified": verified,
+            "rules": R, "indices": idx_list, "flows": flows, "sbp": sbp_v, "ai": {k: v for k, v in ai_block.items() if k != "assessments"}, "verified": verified,
             "track_record": record, "signal_ladder": {"held": signals.HELD, "unheld": signals.UNHELD}, "kmi_known": bool(kmi_all)}
     key = os.getenv("HOLDINGS_KEY", "")
     if key:
